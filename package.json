@@ -7,7 +7,10 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "express": "^5.1.0"
+    "@prisma/client": "^6.7.0",
+    "@supabase/supabase-js": "^2.49.4",
+    "express": "^5.1.0",
+    "prisma": "^6.7.0"
   },
   "scripts": {
     "dev": "nodemon --watch './**/*.ts' --exec 'ts-node' server.ts"
