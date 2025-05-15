@@ -9,7 +9,9 @@
   "dependencies": {
     "@prisma/client": "^6.7.0",
     "@supabase/supabase-js": "^2.49.4",
+    "bcryptjs": "^3.0.2",
     "express": "^5.1.0",
+    "hash": "^0.2.1",
     "prisma": "^6.7.0"
   },
   "scripts": {

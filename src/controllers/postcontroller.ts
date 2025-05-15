@@ -11,11 +11,12 @@ async function handleGetPosts(req: Request, res: Response): Promise<void> {
 }
 
 async function handlePostPost(req: Request, res: Response): Promise<void> {
-    const { title, content, authorId } = req.body;
+    const { title, content, userid } = req.body;
     try {
-        const newPost = await postDB.postPost(title, content, authorId);
+        const newPost = await postDB.postPost(title, content, userid);
         res.status(201).json(newPost);
     } catch (error: any) {
+        console.error("CREATE POST ERROR:", error);
         res.status(500).json({ message: error.message });
     }
 }

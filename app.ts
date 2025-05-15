@@ -16,8 +16,4 @@ app.get("/", (req: Request, res: Response) => {
 // Routes
 app.use('/posts', postRoutes);
 
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
-
 export { app, PORT };
