@@ -1,5 +1,7 @@
 import express from 'express';
 import postRoutes from './src/routes/postroutes';
+import jwt from 'jsonwebtoken';
+
 import { Request, Response } from 'express';
 
 const PORT = process.env.PORT || 3000;

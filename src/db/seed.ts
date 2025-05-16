@@ -8,6 +8,7 @@ const sampleData = {
     username: "johndoe",
     password: "password123",
 }
+
 async function seedDatabase() {
     try {
         console.log("Connected to the database");

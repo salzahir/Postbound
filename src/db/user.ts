@@ -29,4 +29,24 @@ async function postUser(name: string, email: string, username: string, password:
     }
 }
 
-export { getUsers, postUser };
+async function getLogin(username: string, password: string) {
+    try {
+        const user = await prisma.user.findUnique({
+            where: { username },
+        });
+        if (!user) {
+            throw new Error("User not found");
+        }
+        const isMatch = await comparePassword(password, user.password);
+
+        if (!isMatch) {
+            throw new Error("Invalid password");
+        }
+        return user;
+    } catch (error) {
+        console.error("Error logging in:", error);
+        throw new Error("Could not log in");
+    }
+}
+
+export { getUsers, postUser, getLogin };
