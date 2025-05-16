@@ -16,7 +16,8 @@ async function handlePostUser(req: Request, res: Response): Promise<void> {
     const { name, email, username, password } = req.body;
     try {
         const newUser = await userDb.postUser(name, email, username, password);
-        res.status(201).json(newUser);
+        const { password: _password, ...safeUser } = newUser;
+        res.status(201).json(safeUser);
     } catch (error) {
         console.error("Error creating user:", error);
         res.status(500).json({ message: "Internal server error" });
