@@ -1,8 +1,9 @@
 import express from 'express';
-import postRoutes from './src/routes/postroutes';
 import jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
 import dotenv from 'dotenv';
+import postRoutes from './src/routes/post-routes';
+import authRoutes from './src/routes/auth-routes';
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -18,5 +19,7 @@ app.get("/", (req: Request, res: Response) => {
 
 // Routes
 app.use('/posts', postRoutes);
+app.use("/auth", authRoutes);
+
 
 export { app, PORT };

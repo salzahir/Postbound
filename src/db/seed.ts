@@ -2,11 +2,14 @@ import { log } from "console";
 import prisma from "../config/prisma";
 import * as userDB from "./user";
 
+// Sample data to seed the database
+// Testing with Postman
 const sampleData = {
     name: "John Doe",
     email: "johndoe@gmail.com",
     username: "johndoe",
     password: "password123",
+    //   "userid": "dd93d425-91d1-4c97-9fc6-8dba55b86067"
 }
 
 async function seedDatabase() {
@@ -25,6 +28,3 @@ async function seedDatabase() {
 }
 
 seedDatabase();
-
-// Sample data for seeding
-//   "userid": "dd93d425-91d1-4c97-9fc6-8dba55b86067"
