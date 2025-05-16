@@ -10,4 +10,12 @@ function generateToken(userId: string): string {
     return jwt.sign({ id: userId }, JWT_SECRET, { expiresIn: '1h' });
 }
 
-export { generateToken };
+function verifyToken(token: string): string | jwt.JwtPayload {
+    try {
+        return jwt.verify(token, JWT_SECRET);
+    } catch (error) {
+        throw new Error("Invalid token");
+    }
+}
+
+export { generateToken, verifyToken };
