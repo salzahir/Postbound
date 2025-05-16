@@ -1,16 +1,6 @@
 import * as userDb from "../db/user"
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
-
-const JWT_SECRET = process.env.JWT_SECRET!;
-
-if (!JWT_SECRET) {
-    throw new Error("JWT_SECRET is not defined in environment variables");
-}
-
-function generateToken(userId: string): string {
-    return jwt.sign({ id: userId }, JWT_SECRET, { expiresIn: '1h' });
-}
+import { generateToken } from "../middleware/jwt";
 
 async function handleGetUsers(req: Request, res: Response): Promise<void> {
     try {
