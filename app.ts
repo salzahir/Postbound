@@ -1,9 +1,10 @@
 import express from 'express';
 import postRoutes from './src/routes/postroutes';
 import jwt from 'jsonwebtoken';
-
 import { Request, Response } from 'express';
+import dotenv from 'dotenv';
 
+dotenv.config();
 const PORT = process.env.PORT || 3000;
 const app = express();
 
