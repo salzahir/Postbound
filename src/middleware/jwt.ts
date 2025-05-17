@@ -10,9 +10,14 @@ function generateToken(userId: string): string {
     return jwt.sign({ id: userId }, JWT_SECRET, { expiresIn: '1h' });
 }
 
-function verifyToken(token: string): string | jwt.JwtPayload {
+
+function verifyToken(token: string): jwt.JwtPayload {
     try {
-        return jwt.verify(token, JWT_SECRET);
+        const decoded = jwt.verify(token, JWT_SECRET);
+        if (typeof decoded !== "object" || decoded === null || !("id" in decoded)) {
+            throw new Error("Invalid token payload");
+        }
+        return decoded as jwt.JwtPayload;
     } catch (error) {
         throw new Error("Invalid token");
     }

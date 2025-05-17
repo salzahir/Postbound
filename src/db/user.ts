@@ -49,4 +49,19 @@ async function getLogin(username: string, password: string) {
     }
 }
 
-export { getUsers, postUser, getLogin };
+async function isAuthor(userid: string) {
+    try {
+        const user = await prisma.user.findUnique({
+            where: { userid },
+        });
+        if (!user) {
+            throw new Error("User not found");
+        }
+        return user.isAuthor;
+    } catch (error) {
+        console.error("Error checking author:", error);
+        throw new Error("Could not check author");
+    }
+}
+
+export { getUsers, postUser, getLogin, isAuthor };

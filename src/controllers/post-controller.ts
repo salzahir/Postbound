@@ -15,6 +15,7 @@ async function handlePostPost(req: Request, res: Response): Promise<void> {
     try {
         const newPost = await postDB.postPost(title, content, userid);
         res.status(201).json(newPost);
+        console.log("POSTED:", newPost);
     } catch (error: any) {
         console.error("CREATE POST ERROR:", error);
         res.status(500).json({ message: error.message });
