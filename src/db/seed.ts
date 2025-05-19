@@ -9,7 +9,8 @@ const sampleData = {
     email: "johndoe@gmail.com",
     username: "johndoe",
     password: "password123",
-    //   "userid": "dd93d425-91d1-4c97-9fc6-8dba55b86067"
+    isAuthor: true,
+    // UserID: 39c3a375-d8da-4702-8814-31a9b15969ab
 }
 
 async function seedDatabase() {
