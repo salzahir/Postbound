@@ -12,7 +12,7 @@ async function getPosts() {
     }
 }
 
-async function postPost(title: string, content: string, userid: string) {
+async function postPost(title: string, content: string, userid: string, isPublic: boolean = true) {
     try {
         const newPost = await prisma.post.create({
             data: {
@@ -21,6 +21,7 @@ async function postPost(title: string, content: string, userid: string) {
                 user: {
                     connect: { userid: userid },
                 },
+                isPublic,
             },
         });
         return newPost;
@@ -30,7 +31,7 @@ async function postPost(title: string, content: string, userid: string) {
     }
 }
 
-async function updatePost(id: number, title: string, content: string) {
+async function updatePost(id: number, title: string, content: string, isPublic: boolean = true) {
     try {
         const updatedPost = await prisma.post.update({
             where: { id },
@@ -55,4 +56,17 @@ async function deletePost(id: number) {
     }
 }
 
-export { getPosts, postPost, updatePost, deletePost };
+async function togglePost(id: number, isPublic: boolean) {
+    try {
+        const updatedPost = await prisma.post.update({
+            where: { id },
+            data: { isPublic },
+        });
+        return updatedPost;
+    } catch (error) {
+        console.error("Error toggling post visibility:", error);
+        throw new Error("Could not toggle post visibility");
+    }
+}
+
+export { getPosts, postPost, updatePost, deletePost, togglePost };
