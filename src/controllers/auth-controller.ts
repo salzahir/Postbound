@@ -1,19 +1,12 @@
 import * as userDb from "../db/user"
 import { NextFunction, Request, Response } from "express";
-import { generateToken, verifyToken } from "../middleware/jwt";
+import { generateToken} from "../middleware/jwt";
 
 
 async function handleIsAuthor(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const authHeader = req.headers.authorization;
-    const token = authHeader?.split(' ')[1];
-    if (!token) {
-        res.status(401).json({ message: "Unauthorized" });
-        return;
-    }
-
     try {
-        const decoded = verifyToken(token);
-        const isAuthor = await userDb.isAuthor(decoded.id);
+        const userId = req.user?.id;
+        const isAuthor = await userDb.isAuthor(userId);
         if (isAuthor) {
             next();
         } else {
