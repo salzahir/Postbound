@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import postRoutes from './src/routes/post-routes';
 import authRoutes from './src/routes/auth-routes';
+import commentRoutes from './src/routes/comment-routes';
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -20,6 +21,7 @@ app.get("/", (req: Request, res: Response) => {
 // Routes
 app.use('/posts', postRoutes);
 app.use("/auth", authRoutes);
+app.use("/comments", commentRoutes);
 
 
 export { app, PORT };
