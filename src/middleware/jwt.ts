@@ -11,7 +11,7 @@ declare global {
 }
 
 function generateToken(userId: string): string {
-    return jwt.sign({ id: userId }, JWT_SECRET, { expiresIn: '1h' });
+    return jwt.sign({ id: userId }, JWT_SECRET, { expiresIn: '7d' });
 }
 
 function verifyToken(token: string): jwt.JwtPayload {
