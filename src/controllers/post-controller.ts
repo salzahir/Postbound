@@ -48,4 +48,16 @@ async function handleDeletePost(req: Request, res: Response): Promise<void> {
     }
 }
 
-export { handleGetPosts, handlePostPost, handleUpdatePost, handleDeletePost };
+async function handleTogglePost(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+    const { isPublic } = req.body;
+    try {
+        const updatedPost = await postDB.togglePost(Number(id), isPublic);
+        res.status(200).json(updatedPost);
+    } catch (error: any) {
+        console.error("Error toggling post visibility:", error);
+        res.status(500).json({ message: error.message });
+    }
+}
+
+export { handleGetPosts, handlePostPost, handleUpdatePost, handleDeletePost, handleTogglePost };
