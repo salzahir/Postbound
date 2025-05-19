@@ -1,6 +1,7 @@
 import * as userDb from "../db/user"
 import { NextFunction, Request, Response } from "express";
 import { generateToken} from "../middleware/jwt";
+import { devLog } from "../utils/devlog";
 
 
 async function handleIsAuthor(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -10,6 +11,7 @@ async function handleIsAuthor(req: Request, res: Response, next: NextFunction): 
         if (isAuthor) {
             next();
         } else {
+            devLog("User is not an author");
             res.status(403).json({ message: "Forbidden" });
         }
     } catch (error) {
@@ -41,13 +43,13 @@ async function handlePostUser(req: Request, res: Response): Promise<void> {
 }
 
 async function handleGetLogin(req: Request, res: Response): Promise<void> {
-    const { username, password } = req.body;
     try {
+        const { username, password } = req.body;
         const user = await userDb.getLogin(username, password);
         const token = generateToken(user.userid);
         const { password: _password, ...safeUser } = user;
+        devLog("User logged in successfully:", safeUser);
         res.status(200).json({ token, user: safeUser });
-        console.log("User logged in successfully:", safeUser);
     } catch (error) {
         console.error("Error logging in:", error);
         res.status(401).json({ message: "Invalid credentials" });
