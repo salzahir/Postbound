@@ -35,13 +35,51 @@ const validForm = [
     .withMessage("Please confirm your password"),
 ];
 
-function handleErrors(req: Request, res: Response, next: NextFunction) {
+
+const validPost = [
+  body("title")
+    .isString()
+    .notEmpty()
+    .withMessage("Title is required")
+    .isLength({ min: 3, max: 100 })
+    .withMessage("Title must be between 3 and 100 characters"),
+
+  body("content")
+    .isString()
+    .notEmpty()
+    .withMessage("Content is required")
+    .isLength({ min: 10 })
+    .withMessage("Content must be at least 10 characters long"),
+
+  body("isPublic")
+    .isBoolean()
+    .withMessage("isPublic must be a boolean"),
+];
+
+const validComment = [
+  body("title")
+    .isString()
+    .notEmpty()
+    .withMessage("Title is required")
+    .isLength({ min: 3, max: 50 })
+    .withMessage("Title must be between 3 and 50 characters"),
+
+  body("content")
+    .isString()
+    .notEmpty()
+    .withMessage("Content is required")
+    .isLength({ min: 5 })
+    .withMessage("Content must be at least 5 characters long"),
+];
+
+function handleErrors(req: Request, res: Response, next: NextFunction): void {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.array() });
+    res.status(422).json({ errors: errors.array() });
+    return;
   }
   next();
 }
 
-export { validForm, handleErrors };
+export { validForm, validPost, validComment, handleErrors };
 
