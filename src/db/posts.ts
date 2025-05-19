@@ -1,8 +1,9 @@
 import prisma from "../config/prisma";
 
-async function getPosts() {
+async function getPosts(publicOnly: boolean = true) {
     try {
         const posts = await prisma.post.findMany({
+            where: publicOnly ? { isPublic: true } : undefined,
             include: { user: true },
         });
         return posts;

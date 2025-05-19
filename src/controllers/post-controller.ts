@@ -4,7 +4,9 @@ import { devLog } from '../utils/devlog';
 
 async function handleGetPosts(req: Request, res: Response): Promise<void> {
     try {
-        const posts = await postDB.getPosts();
+        // If user is authenticated and is an author, show all posts
+        const publicOnly = !req.user?.isAuthor;
+        const posts = await postDB.getPosts(publicOnly);
         res.status(200).json(posts);
     } catch (error: any) {
         console.error("Error fetching posts:", error);
