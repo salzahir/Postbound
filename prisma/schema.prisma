@@ -23,6 +23,7 @@ model Post {
   userId    String    // Foreign key for User
   user      User      @relation(fields: [userId], references: [userid])
   comments  Comment[] // Relation to comments
+  isPublic Boolean
 }
 
 model Comment {
