@@ -16,7 +16,7 @@ export default function Header() {
             <Link href="/about" className="hover:underline">About</Link>
           </li>
           <li>
-            <Link href="/sign-in" className="hover:underline">Sign In</Link>
+            <Link href="/login" className="hover:underline">Log in</Link>
           </li>
         </ul>
       </nav>
