@@ -15,10 +15,10 @@ async function handleGetPosts(req: Request, res: Response): Promise<void> {
 }
 
 async function handlePostPost(req: Request, res: Response): Promise<void> {
-    const { title, content } = req.body;
+    const { title, content, isPublic} = req.body;
     const userid = req.user?.id;
     try {
-        const newPost = await postDB.postPost(title, content, userid);
+        const newPost = await postDB.postPost(title, content, userid, isPublic);
         devLog("POSTED:", newPost);
         res.status(201).json(newPost);
     } catch (error: any) {

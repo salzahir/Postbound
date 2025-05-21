@@ -157,7 +157,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/salzahir/Documents/Odin/NodeJS/Postbound/src/generated/prisma",
+      "value": "/Users/salzahir/Documents/Odin/NodeJS/Postbound/server/src/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -171,7 +171,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/salzahir/Documents/Odin/NodeJS/Postbound/prisma/schema.prisma",
+    "sourceFilePath": "/Users/salzahir/Documents/Odin/NodeJS/Postbound/server/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

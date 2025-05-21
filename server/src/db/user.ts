@@ -11,7 +11,7 @@ async function getUsers() {
     }
 }
 
-async function postUser(name: string, email: string, username: string, password: string) {
+async function postUser(name: string, email: string, username: string, password: string, isAuthor: boolean = false) {
     try {
         const hashedPassword = await hashPassword(password);
         const newUser = await prisma.user.create({
@@ -20,6 +20,7 @@ async function postUser(name: string, email: string, username: string, password:
                 email,
                 username,
                 password: hashedPassword,
+                isAuthor
             },
         });
         return newUser;
@@ -62,6 +63,17 @@ async function isAuthor(userid: string) {
         console.error("Error checking author:", error);
         throw new Error("Could not check author");
     }
+}
+
+async function deleteUser(email: string) {
+  try {
+    const user = await prisma.user.delete({
+      where: { email: email },
+    });
+    console.log("User deleted:", user);
+  } catch (error) {
+    console.error("Error deleting user:", error);
+  } 
 }
 
 export { getUsers, postUser, getLogin, isAuthor };
