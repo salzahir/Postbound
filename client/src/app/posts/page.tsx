@@ -1,15 +1,5 @@
 import Header from "../header";
-
-interface User {
-    name: string;
-}
-
-interface Post {
-    id: number;
-    title: string;
-    content: string;
-    user: User;
-}
+import { Post } from "@/types/post";
 
 async function Posts() {
     const posts = await fetch("http://localhost:3001/posts");
@@ -25,7 +15,6 @@ async function Posts() {
             </>
         );
     }
-
     return (
         <>
             <Header />
@@ -37,6 +26,9 @@ async function Posts() {
                             <h2>{post.title}</h2>
                             <p>{post.content}</p>
                             <p>Author: {post.user.name}</p>
+                            <p>Created at: {post.createdAt}</p>
+                            <p>Updated at: {post.updatedAt}</p>
+                            <p>{post.isPublic ? "Public" : "Private"}</p>
                         </div>
                     ))}
                 </div>
