@@ -1,20 +1,23 @@
 async function loginUser(formData: FormData) {
-                const json = {
-            username: formData.get("username"),
-            password: formData.get("password"),
-            };
-        const res = await fetch("http://localhost:3001/auth/login", {
-        method: "POST",
-        headers: {
-            "content-type": "application/json",
-        },
-        body: JSON.stringify(json),
-    });
-    if (!res.ok) {
-        throw new Error("Login failed");
-    }
-    const data = await res.json();
-    return data;
+  const json = {
+    username: formData.get("username"),
+    password: formData.get("password"),
+  };
+
+  const res = await fetch("http://localhost:3001/auth/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(json),
+  });
+
+  if (!res.ok) {
+    throw new Error("Login failed");
+  }
+
+  const data = await res.json();
+  return data;
 }
 
 export default loginUser;
