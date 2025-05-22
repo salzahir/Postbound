@@ -1,7 +1,3 @@
-interface User {
-    name: string;
-}
-
 interface Post {
     id: number;
     title: string;
@@ -12,4 +8,4 @@ interface Post {
     isPublic: boolean;
 }
 
-export type { User, Post };
+export type { Post };
