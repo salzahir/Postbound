@@ -44,8 +44,20 @@ async function handlePostUser(req: Request, res: Response): Promise<void> {
 
 async function handleGetLogin(req: Request, res: Response): Promise<void> {
     try {
+        const userId = req.user?.id;
+        const user = await userDb.getUserById(userId);
+        devLog("User logged in successfully: now", user);
+        res.status(200).json(user);
+    } catch (error) {
+        console.error("Error fetching user details:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
+
+async function handlePostLogin(req: Request, res: Response): Promise<void> {
+    try {
         const { username, password } = req.body;
-        const user = await userDb.getLogin(username, password);
+        const user = await userDb.postLogin(username, password);
         const token = generateToken(user.userid);
         const { password: _password, ...safeUser } = user;
         devLog("User logged in successfully:", safeUser);
@@ -56,4 +68,4 @@ async function handleGetLogin(req: Request, res: Response): Promise<void> {
     }
 }
 
-export { handleGetUsers, handlePostUser, handleGetLogin, handleIsAuthor };
+export { handleGetUsers, handlePostUser, handlePostLogin, handleIsAuthor, handleGetLogin };

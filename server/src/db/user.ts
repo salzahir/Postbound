@@ -1,6 +1,19 @@
 import prisma from "../config/prisma";
 import { hashPassword, comparePassword } from "../utils/hash";
 
+
+async function getUserById(userId: string) {
+    try {
+        const user = await prisma.user.findUnique({
+            where: { userid: userId },
+        });
+        return user;
+    } catch(error) {
+        console.error("Error fetching user by ID:", error);
+        throw new Error("Could not fetch user by ID");
+    }
+} 
+
 async function getUsers() {
     try {
         const users = await prisma.user.findMany();
@@ -30,7 +43,7 @@ async function postUser(name: string, email: string, username: string, password:
     }
 }
 
-async function getLogin(username: string, password: string) {
+async function postLogin(username: string, password: string) {
     try {
         const user = await prisma.user.findUnique({
             where: { username },
@@ -76,4 +89,4 @@ async function deleteUser(email: string) {
   } 
 }
 
-export { getUsers, postUser, getLogin, isAuthor };
+export { getUserById,getUsers, postUser, postLogin, isAuthor };

@@ -17,6 +17,8 @@ async function loginUser(formData: FormData) {
   }
 
   const data = await res.json();
+  // Store the token
+  localStorage.setItem('token', data.token);
   return data;
 }
 
