@@ -21,7 +21,7 @@ function LoginPage() {
         setSucess("Login successful!");
         console.log("Login response:", data);
                 setTimeout(() => {
-        router.push("/posts"); 
+        router.push("/dashboard"); 
       }, 1000);
       } catch (error) {
         console.error("Error during login:", error);
