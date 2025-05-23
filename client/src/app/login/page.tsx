@@ -4,6 +4,7 @@ import { FormEvent } from "react";
 import loginUser from "./login";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Header from "../header";
 
 function LoginPage() {
     const router = useRouter();
@@ -30,6 +31,8 @@ function LoginPage() {
     }
     
     return (
+      <>
+        <Header/>
         <div>
             <h1>Login</h1>
             <form onSubmit={handleLogin}>
@@ -47,6 +50,8 @@ function LoginPage() {
             {success && <p className="text-green-500 mt-4">{success}</p>}
             {error && <p className="text-red-500 mt-4">{error}</p>}
         </div>
+      </>
+
     )
 }
 

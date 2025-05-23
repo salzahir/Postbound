@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { User } from "@/types/users";
 import checkAuth from "./checkauth";
 import Header from "../header";
+import Link from "next/link";
 
 async function verifyAuth(
   setUser: React.Dispatch<React.SetStateAction<User | null>>,
@@ -12,7 +13,7 @@ async function verifyAuth(
   router: ReturnType<typeof useRouter>
 ) {
   try {
-    const data = await checkAuth();
+    const data = await checkAuth("/auth/login");
     setUser(data);
     console.log("User data:", data);
   } catch (error) {
@@ -59,6 +60,12 @@ function Dashboard() {
               className="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors"
             >
               Logout
+            </button>
+          </div>
+
+          <div>
+            <button>
+              <Link href="/newpost">Create Post</Link>
             </button>
           </div>
           
