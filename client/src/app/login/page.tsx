@@ -5,6 +5,7 @@ import loginUser from "./login";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Header from "../header";
+import Link from "next/link";
 
 function LoginPage() {
     const router = useRouter();
@@ -32,27 +33,58 @@ function LoginPage() {
     
     return (
       <>
-        <Header/>
-        <div>
-            <h1>Login</h1>
-            <form onSubmit={handleLogin}>
-                <div>
-                    <label htmlFor="username">Username</label>
-                    <input type="text" id="username" name="username" required />
-                </div>
-                <div>
-                    <label htmlFor="password">Password</label>
-                    <input type="password" id="password" name="password" required />
-                </div>
-                <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors">Login</button>
-            </form>
-
-            {success && <p className="text-green-500 mt-4">{success}</p>}
-            {error && <p className="text-red-500 mt-4">{error}</p>}
+        <Header />
+        <div className="flex flex-col items-center justify-center min-h-screen px-4">
+          <h1 className="text-3xl font-bold text-white mb-6">Login</h1>
+          <form
+            onSubmit={handleLogin}
+            className="flex flex-col gap-4 bg-gray-800 p-6 rounded-md w-full max-w-md shadow-lg"
+          >
+            <div className="flex flex-col gap-2">
+              <label
+                htmlFor="username"
+                className="text-sm font-semibold text-white"
+              >
+                Username
+              </label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                required
+                className="p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <label
+                htmlFor="password"
+                className="text-sm font-semibold text-white"
+              >
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                required
+                className="p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <button
+              type="submit"
+              className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors"
+            >
+              Login
+            </button>
+          </form>
+          {success && (
+            <p className="bg-green-100 text-green-700 p-2 rounded mt-4">{success}</p>
+          )}
+          {error && (
+            <p className="bg-red-100 text-red-700 p-2 rounded mt-4">{error}</p>
+          )}
+          <Link href="/register" className="text-sm text-blue-400 mt-4 hover:underline">Don't have an account? Register</Link>
         </div>
       </>
-
-    )
+    );
 }
 
 export default LoginPage;
