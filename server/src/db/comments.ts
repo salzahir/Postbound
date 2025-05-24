@@ -18,7 +18,7 @@ async function postComment(title: string, content: string, postId: number, userI
             data: {
                 title,
                 content,
-                postId,
+                postId: Number(postId),
                 userId
             },
         });
@@ -32,7 +32,7 @@ async function postComment(title: string, content: string, postId: number, userI
 async function getPostComments(postId: number) {
     try {
         const comments = await prisma.comment.findMany({
-            where: { postId },
+            where: { postId: Number(postId) },
             include: { user: true },
         });
         return comments;
@@ -45,7 +45,7 @@ async function getPostComments(postId: number) {
 async function getCommentById(id: number) {
     try {
         const comment = await prisma.comment.findUnique({
-            where: { id },
+            where: { id: Number(id) },
             include: { user: false },
         });
         if (!comment) {
@@ -61,7 +61,7 @@ async function getCommentById(id: number) {
 async function updateComment(id: number, title: string, content: string) {
     try {
         const updatedComment = await prisma.comment.update({
-            where: { id },
+            where: { id: Number(id) },
             data: { title, content },
         });
         return updatedComment;
@@ -74,7 +74,7 @@ async function updateComment(id: number, title: string, content: string) {
 async function deleteComment(id: number) {
     try {
         const deletedComment = await prisma.comment.delete({
-            where: { id },
+            where: { id: Number(id) },
         });
         return deletedComment;
     } catch (error) {
