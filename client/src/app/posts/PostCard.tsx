@@ -1,4 +1,5 @@
 import { Post } from "../../types/posts";
+import Link from "next/link";
 
 type Props = {
     post: Post;
@@ -20,6 +21,7 @@ function PostCard({ post }: Props) {
                     {post.isPublic ? "Public" : "Private"}
                 </p>
             </div>
+            <Link href={`/postview/${post.id}`}>View Post</Link>
         </div>
     );
 }

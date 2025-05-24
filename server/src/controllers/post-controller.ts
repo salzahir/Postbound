@@ -62,4 +62,15 @@ async function handleTogglePost(req: Request, res: Response): Promise<void> {
     }
 }
 
-export { handleGetPosts, handlePostPost, handleUpdatePost, handleDeletePost, handleTogglePost };
+async function handleGetPostById(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+    try {
+        const post = await postDB.getPostById(Number(id));
+        res.status(200).json(post);
+    } catch (error: any) {
+        console.error("Error fetching post by id:", error);
+        res.status(500).json({ message: error.message });
+    }
+}
+
+export { handleGetPosts, handlePostPost, handleUpdatePost, handleDeletePost, handleTogglePost, handleGetPostById };

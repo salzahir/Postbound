@@ -70,4 +70,16 @@ async function togglePost(id: number, isPublic: boolean) {
     }
 }
 
-export { getPosts, postPost, updatePost, deletePost, togglePost };
+async function getPostById(id: number) {
+    try {
+        const post = await prisma.post.findUnique({
+            where: { id },
+        });
+        return post;
+    } catch (error) {
+        console.error("Error fetching post by id:", error);
+        throw new Error("Could not fetch post by id");
+    }
+}
+
+export { getPosts, postPost, updatePost, deletePost, togglePost, getPostById };

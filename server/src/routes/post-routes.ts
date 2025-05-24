@@ -6,6 +6,7 @@ import { authenticateToken } from "../middleware/jwt";
 import { validPost, handleErrors } from "../middleware/error";
 
 router.get("/", postController.handleGetPosts);
+router.get("/:id", postController.handleGetPostById);
 
 router.post("/", authenticateToken, handleIsAuthor, validPost, handleErrors, postController.handlePostPost);
 router.put("/:id", authenticateToken, handleIsAuthor, validPost, handleErrors, postController.handleUpdatePost);
