@@ -13,7 +13,8 @@ async function loginUser(formData: FormData) {
   });
 
   if (!res.ok) {
-    throw new Error("Login failed");
+    const errorData = await res.json();
+    throw new Error(errorData.message || "Login failed");
   }
 
   const data = await res.json();
