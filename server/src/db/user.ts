@@ -1,5 +1,6 @@
 import prisma from "../config/prisma";
 import { hashPassword, comparePassword } from "../utils/hash";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 
 async function getUserById(userId: string) {
@@ -13,6 +14,19 @@ async function getUserById(userId: string) {
         throw new Error("Could not fetch user by ID");
     }
 } 
+
+async function getUserByEmail(email: string) {
+    try {
+        const user = await prisma.user.findUnique({
+            where: { email },
+        });
+        return user;
+    } catch(error) {
+        console.error("Error fetching user by email:", error);
+        throw new Error("Could not fetch user by email");
+    }
+}
+
 
 async function getUsers() {
     try {
@@ -89,4 +103,4 @@ async function deleteUser(email: string) {
   } 
 }
 
-export { getUserById,getUsers, postUser, postLogin, isAuthor };
+export { getUserByEmail,getUserById,getUsers, postUser, postLogin, isAuthor };
