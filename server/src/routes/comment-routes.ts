@@ -8,6 +8,7 @@ const router = Router();
 // Public Access
 router.get("/", commentController.handleGetComments);
 router.get("/:id", commentController.handleGetCommentById);
+router.get("/post/:postId", commentController.handleGetPostComments);
 
 router.post("/", authenticateToken, validComment, handleErrors, commentController.handlePostComment);
 router.put("/:id", authenticateToken, validComment, handleErrors, commentController.handleUpdateComment);

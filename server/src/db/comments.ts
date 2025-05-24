@@ -29,6 +29,19 @@ async function postComment(title: string, content: string, postId: number, userI
     }
 }
 
+async function getPostComments(postId: number) {
+    try {
+        const comments = await prisma.comment.findMany({
+            where: { postId },
+            include: { user: true },
+        });
+        return comments;
+    } catch (error) {
+        console.error("Error fetching post comments:", error);
+        throw new Error("Could not fetch post comments");
+    }
+}
+
 async function getCommentById(id: number) {
     try {
         const comment = await prisma.comment.findUnique({
@@ -70,4 +83,4 @@ async function deleteComment(id: number) {
     }
 }
 
-export { getComments, postComment, getCommentById, updateComment, deleteComment };
+export { getPostComments, getComments, postComment, getCommentById, updateComment, deleteComment };
