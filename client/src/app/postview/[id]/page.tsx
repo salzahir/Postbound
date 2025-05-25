@@ -6,6 +6,7 @@ import { Post } from "@/types/posts";
 import { Comment } from "@/types/comments";
 import { FormEvent } from "react";
 import { fetchPostById } from "../fetchpostid";
+import EditButton from "@/app/posts/editbutton";
 
 function PostView() {
     const { id } = useParams()
@@ -115,6 +116,7 @@ function PostView() {
                     <p>Updated: {new Date(post.updatedAt).toLocaleDateString()}</p>
                     <p>Status: <span className={post.isPublic ? "text-green-400" : "text-red-400"}>{post.isPublic ? "Public" : "Private"}</span></p>
                 </div>
+                <EditButton id={post.id} token={token}/>
             </div>
 
             <div className="bg-gray-900 p-6 rounded-lg shadow-md">

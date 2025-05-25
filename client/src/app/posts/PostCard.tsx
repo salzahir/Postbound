@@ -1,22 +1,13 @@
-import { useEffect } from "react";
 import { Post } from "../../types/posts";
 import Link from "next/link";
-import { useState } from "react";
+import EditButton from "./editbutton";
 
 type Props = {
-    post: Post;
-}
+  post: Post;
+  isAuthor: boolean;
+};
 
-function PostCard({ post }: Props) {
-    const [token, setToken] = useState<string | null>(null);
-
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (token) {
-            setToken(token);
-        }
-    }, []);
-        
+function PostCard({ post, isAuthor }: Props) {
 
     return (
         <div key={post.id} className="flex justify-between gap-4 p-6 border border-gray-700 rounded-lg shadow-md mb-4 bg-gray-900 text-white">
@@ -34,13 +25,7 @@ function PostCard({ post }: Props) {
                 </p>
             </div>
             <Link href={`/postview/${post.id}`}>View Post</Link>
-            {token && (
-                <Link href={`/editpost/${post.id}`}>
-                    <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">
-                        Edit Post
-                    </button>
-                </Link>
-            )}
+            <EditButton id={post.id} isAuthor={isAuthor} />
         </div>
     );
 }

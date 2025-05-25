@@ -1,6 +1,9 @@
 async function checkAuth(param: string) {
   const token = localStorage.getItem("token");
-  if (!token) throw new Error("No token found");
+  if (!token) {
+    console.error("No token found");
+    return null;
+  }
 
   const res = await fetch(`http://localhost:3001${param}`, {
     headers: {
