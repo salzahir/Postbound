@@ -47,6 +47,9 @@ async function updatePost(id: number, title: string, content: string, isPublic: 
 
 async function deletePost(id: number) {
     try {
+        await prisma.comment.deleteMany({
+            where: { postId: id },
+        });
         const deletedPost = await prisma.post.delete({
             where: { id },
         });
