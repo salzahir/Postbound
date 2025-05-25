@@ -2,9 +2,10 @@
 import { useParams } from "next/navigation"
 import { useState, useEffect } from "react";
 import Header from "../../header";
-import { Post } from "../../../types/posts";
-import { Comment } from "../../../types/comments";
+import { Post } from "@/types/posts";
+import { Comment } from "@/types/comments";
 import { FormEvent } from "react";
+import { fetchPostById } from "../fetchpostid";
 
 function PostView() {
     const { id } = useParams()
@@ -26,20 +27,21 @@ function PostView() {
         }
     }, []);
 
-    useEffect(() => {
-        const fetchPost = async () => {
-            try {
-                const data = await fetch(`http://localhost:3001/posts/${id}`)
-                const post = await data.json();
-                setPost(post);
-                setLoading(false);
-            } catch (error) {
-                console.error("Error fetching post:", error);
-                setError("Failed to fetch post");
-                setLoading(false);
-            }
+
+  useEffect(() => {
+  async function loadPost() {
+        try {
+        const data = await fetchPostById(id);
+        setPost(data);
+        setLoading(false);
+        } catch (error) {
+        setError("Failed to fetch post");
+        setLoading(false);
+        console.error("Error fetching post:", error);
         }
-        fetchPost();
+    }
+
+    loadPost();
     }, [id]);
 
 
@@ -181,5 +183,4 @@ function PostView() {
     )
     
 }
-
 export default PostView;

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { FormEvent } from "react";
 import Header from "../header";
+import PostForm from "./postform";
 
 function NewPost() {
     const [title, setTitle] = useState("");
@@ -55,39 +56,19 @@ function NewPost() {
                 <p>Note: You can use the form below to create a new post.</p>
                 <p>Note: You can use the form below to create a new post.</p>
             </div>
-            <form onSubmit={handleSubmitPost}>
-                <label htmlFor="title">Title</label>
-                <input
-                    type="text"
-                    name="title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                />
-                <label htmlFor="content">Content</label>
-                <input
-                    type="text"
-                    name="content"
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                />
-                <label className="flex items-center gap-2 text-sm">
-                    <input
-                        type="checkbox"
-                        name="isPublic"
-                        checked={isPublic}
-                        onChange={(e) => setIsPublic(e.target.checked)}
-                    />
-                    Public Post
-                </label>
-                <button
-                    type="submit"
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
-                >
-                    Create Post
-                </button>
-            </form>
-            {success && <p className="text-green-500 mt-4">{success}</p>}
-            {error && <p className="text-red-500 mt-4">{error}</p>}
+
+            <PostForm
+                title={title}
+                setTitle={setTitle}
+                content={content}
+                setContent={setContent}
+                isPublic={isPublic}
+                setIsPublic={setIsPublic}
+                onSubmit={handleSubmitPost}
+                error={error}
+                success={success}
+                submitLabel="Create Post"
+            />
         </>
     );
 }
