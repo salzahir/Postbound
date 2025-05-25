@@ -1,20 +1,20 @@
 import type { Metadata } from "next";
-import { GeistSans } from 'geist/font/sans';
+import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Postbound",
-  description: "A modern blog platform built with Next.js",
+  description: "A blog platform",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en" className={`${GeistSans.className}`}>
-      <body className="antialiased" suppressHydrationWarning>
+    <html lang="en">
+      <body className={`antialiased ${GeistSans.className}`} suppressHydrationWarning>
         {children}
       </body>
     </html>
