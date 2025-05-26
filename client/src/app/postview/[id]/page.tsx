@@ -28,8 +28,7 @@ function PostView() {
     const [commentError, setCommentError] = useState<string | null>(null);
     const [message, setMessage] = useState<string | null>(null);
     const [showForm, setShowForm] = useState(false);
-
-    const [showUpdateForm, setShowUpdateForm] = useState(false);
+    const [activeCommentId, setActiveCommentId] = useState<number | null>(null);
 
     useEffect(() => {
         async function checkAuthor() {
@@ -120,6 +119,28 @@ function PostView() {
             }
         }
 
+        async function deleteComment(id: number) {
+            try {
+                const res = await fetch(`http://localhost:3001/comments/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                const data = await res.json();
+                if (!res.ok) {
+                    setCommentError(data.message || "Failed to delete comment");
+                    return;
+                }
+                setComments((prevComments) => prevComments.filter((comment) => comment.id !== id));
+                setMessage("Comment deleted successfully!");
+            } catch (error) {
+                console.error("Error deleting comment:", error);
+                setCommentError("Failed to delete comment");
+            }
+        }
+
 
     if (loading) {
         return <div>Loading...</div>;
@@ -137,8 +158,8 @@ function PostView() {
                 <h1 className="text-4xl font-bold text-yellow-400 mb-4">{post.title}</h1>
                 <p className="text-lg text-gray-200 mb-6 max-w-xl text-center">{post.content}</p>
                 <div className="flex gap-6 text-sm text-gray-400">
-                    <p>Created: {new Date(post.createdAt).toLocaleDateString()}</p>
-                    <p>Updated: {new Date(post.updatedAt).toLocaleDateString()}</p>
+                    <p>Created: {new Date(post.createdAt).toISOString().split("T")[0]}</p>
+                    <p>Updated: {new Date(post.updatedAt).toISOString().split("T")[0]}</p>
                     <p>Status: <span className={post.isPublic ? "text-green-400" : "text-red-400"}>{post.isPublic ? "Public" : "Private"}</span></p>
                 </div>
                 <EditButton id={post.id} isAuthor={user?.isAuthor ?? null}/>
@@ -190,24 +211,33 @@ function PostView() {
                         >
                             <p><span className="font-semibold text-gray-300">Title:</span> {comment.title}</p>
                             <p><span className="font-semibold text-gray-300">Content:</span> {comment.content}</p>
-                            <p><span className="text-sm text-gray-400">Created:</span> {new Date(comment.createdAt).toLocaleDateString()}</p>
-                            <p><span className="text-sm text-gray-400">Updated:</span> {new Date(comment.updatedAt).toLocaleDateString()}</p>
-                            <p><span className="text-sm text-gray-400">Author:</span> {comment.user?.username || "Unknown"}</p>
+                            <p><span className="text-sm text-gray-400">Created:</span> {new Date(comment.createdAt).toISOString().split("T")[0]}</p>
+                            <p><span className="text-sm text-gray-400">Updated:</span> {new Date(comment.updatedAt).toISOString().split("T")[0]}</p>
+                            {comment.user?.username && (
+                              <p><span className="text-sm text-gray-400">Author:</span> {comment.user.username}</p>
+                            )}
                             <p><span className="font-semibold">Role:</span> {comment.user?.isAuthor ? 'Author' : 'User'}</p>
                             {comment.user && comment.user.userid === user?.userid && (
-                              <div>
+                              <div className="flex flex-col gap-2 mt-2">
                                 <button
                                   className="text-blue-400 hover:underline"
-                                  onClick={() => setShowUpdateForm(!showUpdateForm)}
+                                  onClick={() => 
+                                    setActiveCommentId(activeCommentId === comment.id ? null : comment.id)}
                                 >
-                                  {showUpdateForm ? "Hide Update Form" : "Edit Comment"}
+                                  {activeCommentId === comment.id ? "Hide Update Form" : "Edit Comment"}
                                 </button>
-                                {showUpdateForm && (
+                                {activeCommentId === comment.id && (
                                   <UpdateComment
                                     comment={comment}
                                     token={token ? token : ""}
                                   />
                                 )}
+                                <button
+                                  className="text-red-400 hover:underline"
+                                  onClick={() => deleteComment(comment.id)}
+                                >
+                                  Delete Comment
+                                </button>
                               </div>
                             )}
                         </div>  

@@ -4,6 +4,7 @@ function UpdateComment({comment, token}: {comment: Comment, token: string}) {
 
     const [title, setTitle] = useState(comment.title);
     const [content, setContent] = useState(comment.content);
+    
 
     async function updateComment() {
         try {
