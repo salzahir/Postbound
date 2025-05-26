@@ -22,7 +22,7 @@
   "scripts": {
     "dev": "nodemon --watch './**/*.ts' --exec 'ts-node' ./server.ts",
     "build": "tsc && prisma generate",
-    "start": "node dist/server.js",
+    "start": "node ./dist/server.js",
     "postinstall": "prisma generate"
   }
 }
