@@ -1,6 +1,8 @@
+import { getApiUrl } from '../utils/api';
+
 export async function fetchPostById(id: string) {
   try {
-    const res = await fetch(`http://localhost:3001/posts/${id}`);
+    const res = await fetch(getApiUrl(`/posts/${id}`));
     if (!res.ok) throw new Error("Failed to fetch post");
     const post = await res.json();
     return post;

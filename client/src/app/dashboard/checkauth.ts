@@ -1,3 +1,5 @@
+import { getApiUrl } from '../utils/api';
+
 async function checkAuth(param: string) {
   const token = localStorage.getItem("token");
   if (!token) {
@@ -5,7 +7,7 @@ async function checkAuth(param: string) {
     return null;
   }
 
-  const res = await fetch(`http://localhost:3001${param}`, {
+  const res = await fetch(getApiUrl(param), {
     headers: {
       Authorization: `Bearer ${token}`,
     },

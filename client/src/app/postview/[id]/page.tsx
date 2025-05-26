@@ -11,6 +11,7 @@ import { User } from "@/types/users";
 import checkAuth from "@/app/dashboard/checkauth";
 import CommentForm from "../commentform";
 import UpdateComment from "../updateform";
+import { getApiUrl } from '../../utils/api';
 
 function PostView() {
     const [user, setUser] = useState<User | null>(null);
@@ -72,7 +73,7 @@ function PostView() {
     useEffect(() => {
         const fetchComments = async () => {
             try {
-                const data = await fetch(`http://localhost:3001/comments/post/${postId}`);
+                const data = await fetch(getApiUrl(`/comments/post/${postId}`));
                 const comments = await data.json();
                 setComments(comments);
                 setCommentLoading(false);
@@ -97,7 +98,7 @@ function PostView() {
             userId: user?.userid || "",
             };
             try {
-                const res = await fetch(`http://localhost:3001/comments/post/${postId}`, {
+                const res = await fetch(getApiUrl(`/comments/post/${postId}`), {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -121,7 +122,7 @@ function PostView() {
 
         async function deleteComment(id: number) {
             try {
-                const res = await fetch(`http://localhost:3001/comments/${id}`, {
+                const res = await fetch(getApiUrl(`/comments/${id}`), {
                     method: "DELETE",
                     headers: {
                         "Content-Type": "application/json",

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Header from "../header";
 import { useRouter } from "next/navigation";
+import { getApiUrl } from '../utils/api';
 
 function SignUp() {
     const router = useRouter();
@@ -27,7 +28,7 @@ function SignUp() {
         try {
             setError("");
             setSuccess("");
-            const res = await fetch("http://localhost:3001/auth/sign-up", {
+            const res = await fetch(getApiUrl("/auth/sign-up"), {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

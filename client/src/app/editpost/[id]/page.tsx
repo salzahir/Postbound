@@ -6,6 +6,7 @@ import PostForm from "@/app/newpost/postform";
 import Header from "@/app/header";
 import { fetchPostById } from "../../postview/fetchpostid";
 import { useRouter } from "next/navigation";
+import { getApiUrl } from '../../utils/api';
 
 function EditPost({}: {post: Post}) {
 
@@ -43,7 +44,7 @@ function EditPost({}: {post: Post}) {
                 return;
             }
             const json = { title, content, isPublic };
-            const res = await fetch(`http://localhost:3001/posts/${id}`, {
+            const res = await fetch(getApiUrl(`/posts/${id}`), {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -77,53 +78,8 @@ function EditPost({}: {post: Post}) {
                 console.error("No token found");
                 return;
             }
-            const res = await fetch(`http://localhost:3001/posts/${id}`, {
+            const res = await fetch(getApiUrl(`/posts/${id}`), {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            if (!res.ok) {
-                const errorText = await res.text();
-                console.error("Failed to delete post. Status:", res.status, "Body:", errorText);
-                throw new Error("Failed to delete post");
-            }
-            const data = await res.json();
-            console.log(data);
-            setSuccess("Post deleted successfully!");
-        } catch (error) {
-            console.error("Error deleting post:", error);
-            setError("Failed to delete post. Please try again.");
-        }
-        setTimeout(() => {
-            router.push("/posts");
-        }
-        , 2000);
-    }
-
-
-    return (
-        <>
-            <Header/>
-            <h1>Edit Your Post</h1>
-            <PostForm
-                title={title}
-                setTitle={setTitle}
-                content={content}
-                setContent={setContent}
-                isPublic={isPublic}
-                setIsPublic={setIsPublic}
-                onSubmit={handleUpdatePost}
-                error={error}
-                success={success}
-                submitLabel="Edit Post"
-            />
-            <button onClick={handleDeletePost} className="bg-red-500 text-white p-2 rounded">
-                Delete Post
-            </button>
-        </>
-    )
-}
-
-export default EditPost;
+                    Authorization: `

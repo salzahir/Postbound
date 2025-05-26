@@ -1,10 +1,12 @@
+import { getApiUrl } from '../utils/api';
+
 async function loginUser(formData: FormData) {
   const json = {
     username: formData.get("username"),
     password: formData.get("password"),
   };
 
-  const res = await fetch("http://localhost:3001/auth/login", {
+  const res = await fetch(getApiUrl("/auth/login"), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

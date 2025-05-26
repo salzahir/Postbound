@@ -5,6 +5,7 @@ import { Post } from "@/types/posts";
 import { useEffect, useState } from "react";
 import checkAuth from "../dashboard/checkauth";
 import { User } from "@/types/users";
+import { getApiUrl } from '../utils/api';
 
 function Posts() {
     
@@ -21,7 +22,7 @@ function Posts() {
                 if (storedToken) {
                     setToken(storedToken);
                 }
-                const fetchedPosts = await fetch("http://localhost:3001/posts");
+                const fetchedPosts = await fetch(getApiUrl("/posts"));
                 const data = await fetchedPosts.json() as Post[];
                 setPosts(data);
                 setLoading(false);
