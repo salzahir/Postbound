@@ -1,0 +1,9 @@
+# Prisma
+src/generated/
+src/generated/prisma/
+*.db
+*.db-journal
+
+# Environment variables
+.env
+.env.* 
