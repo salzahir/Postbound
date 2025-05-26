@@ -1,79 +1,42 @@
-# Postbound - Modern Blog Platform
+# Postbound Client
 
-Postbound is a full-stack blog platform built with modern web technologies. It provides a clean, intuitive interface for writers to share their thoughts and ideas with the world.
+A Next.js frontend for the Postbound blog platform.
 
-## 🚀 Features
+## Features
 
-- **Modern UI/UX**
-  - Clean, responsive design with Tailwind CSS
-  - Server-side rendering for optimal performance
-  - Geist Sans font for beautiful typography
-  - Dark mode support
+- **Authentication:** Secure login, JWT storage, protected routes, and role-based access.
+- **Posts:** Full CRUD, publish/unpublish, author-only controls, timestamps, and public/private logic.
+- **Comments:** Full CRUD, user association, edit/delete for own comments, and proper linking to posts.
+- **UI/UX:** Clean, functional, and responsive with Tailwind CSS. Includes loading states, error handling, and confirmation dialogs (or plans for them).
+- **Admin/Author Features:** Ability to manage posts and comments, not just consume content.
 
-- **Next.js 13+ Features**
-  - App Router architecture
-  - File-system based routing
-  - Server Components
-  - TypeScript integration
+## Tech Stack
 
-- **Blog Functionality**
-  - Create and edit posts
-  - Comment system
-  - User profiles
-  - Rich text editing
+- **Framework:** Next.js, React, TypeScript
+- **Styling:** Tailwind CSS
+- **State Management:** React Context (planned)
+- **API Calls:** Fetch/axios (planned refactor to service layer)
 
-## 🛠️ Tech Stack
+## Getting Started
 
-- **Frontend**
-  - Next.js 13+
-  - TypeScript
-  - Tailwind CSS
-  - Geist Sans font
-
-- **Backend**
-  - Node.js/Express
-  - PostgreSQL
-  - Prisma ORM
-  - JWT Authentication
-
-## 🏗️ Project Structure
-
-```
-client/
-├── src/
-│   ├── app/              # Next.js App Router pages
-│   ├── components/       # Reusable UI components
-│   └── types/           # TypeScript type definitions
-```
-
-## 🚀 Getting Started
-
-1. Clone the repository
+1. Clone the repository.
 2. Install dependencies:
-   ```bash
-   cd client
-   npm install
+   ```sh
+   cd client && npm install
    ```
-3. Run the development server:
-   ```bash
+3. Set up environment variables (see `.env.example`).
+4. Run the development server:
+   ```sh
    npm run dev
    ```
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-## 🔜 Upcoming Features
+## Next Steps
 
-- [ ] User authentication
-- [ ] Post creation and editing
-- [ ] Comment system
-- [ ] User profiles
-- [ ] Rich text editor
-- [ ] Image upload
-- [ ] Search functionality
+- **Deployment:** Deploy to Vercel.
+- **Polish:** Implement pagination, confirmation dialogs, and accessibility improvements.
+- **Testing:** Add unit and integration tests.
+- **CI/CD:** Set up GitHub Actions for linting and tests.
 
-## 🤝 Contributing
+## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📝 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+Feel free to open issues or submit pull requests!

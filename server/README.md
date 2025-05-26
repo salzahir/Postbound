@@ -1,40 +1,44 @@
-# Postbound API
+# Postbound Server
 
-A RESTful API built with Node.js, Express, TypeScript, and Prisma, using Supabase as the database. This API powers a blog platform with public/private posts and comment functionality.
+A RESTful API backend for the Postbound blog platform.
 
 ## Features
 
-- 🔐 **Authentication**
-  - JWT-based authentication
-  - Author and user roles
-  - Protected routes
-  - 7-day token expiration
-
-- 📝 **Post Management**
-  - Create, read, update, delete posts
-  - Public/private post visibility
-  - Author-only post management
-  - Filtered views for regular users
-
-- 💬 **Comment System**
-  - Create, read, update, delete comments
-  - User attribution
-  - Protected comment management
-
-- ✅ **Input Validation**
-  - Form validation for users
-  - Post content validation
-  - Comment content validation
-  - Detailed error messages
+- **Authentication:** Secure login, JWT storage, protected routes, and role-based access.
+- **Posts:** Full CRUD, publish/unpublish, author-only controls, timestamps, and public/private logic.
+- **Comments:** Full CRUD, user association, edit/delete for own comments, and proper linking to posts.
+- **Database:** PostgreSQL with Prisma ORM for type-safe queries and migrations.
 
 ## Tech Stack
 
-- **Backend**: Node.js, Express
-- **Language**: TypeScript
-- **Database**: PostgreSQL (via Supabase)
-- **ORM**: Prisma
-- **Authentication**: JWT
-- **Validation**: Express Validator
+- **Framework:** Express, Node.js, TypeScript
+- **Database:** PostgreSQL (via Prisma ORM)
+- **Authentication:** JWT
+- **API:** RESTful endpoints
+
+## Getting Started
+
+1. Clone the repository.
+2. Install dependencies:
+   ```sh
+   cd server && npm install
+   ```
+3. Set up environment variables (see `.env.example`).
+4. Run the development server:
+   ```sh
+   npm run dev
+   ```
+
+## Next Steps
+
+- **Deployment:** Deploy to Render/Fly.io.
+- **Polish:** Implement rate limiting, CSRF protection, and logging.
+- **Testing:** Add unit and integration tests.
+- **CI/CD:** Set up GitHub Actions for linting and tests.
+
+## Contributing
+
+Feel free to open issues or submit pull requests!
 
 ## Project Structure
 
@@ -51,37 +55,6 @@ src/
 ├── routes/        # API routes
 └── utils/         # Utility functions
 ```
-
-## Getting Started
-
-1. Clone the repository
-   ```bash
-   git clone https://github.com/salzahir/Postbound.git
-   cd Postbound
-   ```
-
-2. Install dependencies
-   ```bash
-   npm install
-   ```
-
-3. Set up environment variables
-   Create a `.env` file with:
-   ```
-   DATABASE_URL="your-supabase-connection-string"
-   JWT_SECRET="your-jwt-secret"
-   PORT=3000
-   ```
-
-4. Run database migrations
-   ```bash
-   npx prisma migrate dev
-   ```
-
-5. Start the development server
-   ```bash
-   npm run dev
-   ```
 
 ## API Endpoints
 
