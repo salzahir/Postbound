@@ -1,6 +1,8 @@
-import {app, PORT} from './app';
+import {app} from './app';
 import { devLog } from './src/utils/devlog';
 
+const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
-    devLog("Development Mode server is running on http://localhost:" + PORT);
+    devLog(`Server is running on port ${PORT}`);
 });

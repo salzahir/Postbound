@@ -140,4 +140,6 @@ src/generated/
 *.db
 *.db-journal
 
+prisma/generated/
+
 PROJECT_ISSUES.md
