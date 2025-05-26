@@ -1,60 +1,57 @@
-# Postbound API
+# Postbound
 
-A RESTful API built with Node.js, Express, TypeScript, and Prisma, using Supabase as the database.
-
-## Features
-
-- User authentication (in progress)
-- Post management
-- RESTful API endpoints
-- TypeScript implementation
-- Prisma ORM with Supabase
-
-## Tech Stack
-
-- Node.js
-- Express
-- TypeScript
-- Prisma
-- Supabase
-- JWT (for authentication)
+A full-stack blog platform with public/private posts and comment functionality.
 
 ## Project Structure
 
 ```
-src/
-├── controllers/     # Request handlers
-├── routes/         # API routes
-├── db/            # Database operations
-│   ├── queries/   # Database queries
-│   └── seed.ts    # Database seeding
-└── utils/         # Utility functions
+postbound/
+├── client/          # Next.js frontend application
+└── server/          # Express.js backend API
 ```
 
 ## Getting Started
 
-1. Clone the repository
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Set up your environment variables
-4. Run the development server:
-   ```bash
-   npm run dev
-   ```
+### Backend (Server)
 
-## API Endpoints
+The backend is a RESTful API built with Node.js, Express, TypeScript, and Prisma, using Supabase as the database.
 
-### Posts
-- `GET /posts` - Get all posts
-- `POST /posts` - Create a new post
+See [server/README.md](server/README.md) for detailed backend documentation.
 
-### Users (In Progress)
-- Authentication endpoints coming soon
+### Frontend (Client)
+
+The frontend is a Next.js application that provides the user interface for the blog platform.
+
+See [client/README.md](client/README.md) for detailed frontend documentation.
 
 ## Development
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm start` - Start production server
+1. Clone the repository
+   ```bash
+   git clone https://github.com/salzahir/Postbound.git
+   cd Postbound
+   ```
+
+2. Install dependencies
+   ```bash
+   # Install backend dependencies
+   cd server
+   npm install
+
+   # Install frontend dependencies
+   cd ../client
+   npm install
+   ```
+
+3. Start development servers
+   ```bash
+   # Start backend server (from server directory)
+   npm run dev
+
+   # Start frontend server (from client directory)
+   npm run dev
+   ```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
