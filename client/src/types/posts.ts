@@ -1,4 +1,6 @@
-interface Post {
+import { User } from './users';
+
+export type Post = {
     id: number;
     title: string;
     content: string;
@@ -6,6 +8,4 @@ interface Post {
     createdAt: string;
     updatedAt: string;
     isPublic: boolean;
-}
-
-export type { Post };
+};
