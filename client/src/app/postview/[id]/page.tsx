@@ -1,25 +1,46 @@
 "use client"
 import { useParams } from "next/navigation"
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
 import Header from "../../header";
 import { Post } from "@/types/posts";
 import { Comment } from "@/types/comments";
 import { FormEvent } from "react";
 import { fetchPostById } from "../fetchpostid";
 import EditButton from "@/app/posts/editbutton";
+import { User } from "@/types/users";
+import checkAuth from "@/app/dashboard/checkauth";
+import CommentForm from "../commentform";
 
 function PostView() {
+    const [user, setUser] = useState<User | null>(null);
     const { id } = useParams()
+    const postId = id as string;
     const [post, setPost] = useState<Post | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
 
     const [comments, setComments] = useState<Comment[]>([]);
+    const [commentTitle, setCommentTitle] = useState("");
+    const [commentContent, setCommentContent] = useState("");
     const [commentLoading, setCommentLoading] = useState(true);
     const [commentError, setCommentError] = useState<string | null>(null);
     const [message, setMessage] = useState<string | null>(null);
     const [showForm, setShowForm] = useState(false);
+
+    useEffect(() => {
+        async function checkAuthor() {
+            try{ 
+                const userData = await checkAuth("/auth/login");
+                setUser(userData);
+                console.log("User data:", userData);
+            } catch (error) {
+            console.error("Auth check failed:", error);
+        }
+    } checkAuthor();
+    }
+    , [token]);
+
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -32,7 +53,7 @@ function PostView() {
   useEffect(() => {
   async function loadPost() {
         try {
-        const data = await fetchPostById(id);
+        const data = await fetchPostById(postId);
         setPost(data);
         setLoading(false);
         } catch (error) {
@@ -43,13 +64,13 @@ function PostView() {
     }
 
     loadPost();
-    }, [id]);
+    }, [postId]);
 
 
     useEffect(() => {
         const fetchComments = async () => {
             try {
-                const data = await fetch(`http://localhost:3001/comments/post/${id}`)
+                const data = await fetch(`http://localhost:3001/comments/post/${postId}`);
                 const comments = await data.json();
                 setComments(comments);
                 setCommentLoading(false);
@@ -60,19 +81,21 @@ function PostView() {
             }
         }
         fetchComments();
-    }, [id]);
+    }, [postId]);
 
     async function postComment(event: FormEvent<HTMLFormElement>) {
+            setError("")
+            setMessage("")
+            setCommentError("")
             event.preventDefault();
-            const formData = new FormData(event.currentTarget);
             const json = {
-                title: formData.get("title"),
-                content: formData.get("content"),
-                postId: id,
-                userId: token,
+            title: commentTitle,
+            content: commentContent,
+            postId: Number(postId),
+            userId: user?.userid || "",
             };
             try {
-                const res = await fetch("http://localhost:3001/comments/post/:postId", {
+                const res = await fetch(`http://localhost:3001/comments/post/${postId}`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -107,7 +130,6 @@ function PostView() {
     return (
         <>
             <Header />
-
             <div className="flex flex-col items-center justify-center p-6 bg-gray-900 text-white rounded-lg shadow-md mt-6 mb-6">
                 <h1 className="text-4xl font-bold text-yellow-400 mb-4">{post.title}</h1>
                 <p className="text-lg text-gray-200 mb-6 max-w-xl text-center">{post.content}</p>
@@ -116,7 +138,7 @@ function PostView() {
                     <p>Updated: {new Date(post.updatedAt).toLocaleDateString()}</p>
                     <p>Status: <span className={post.isPublic ? "text-green-400" : "text-red-400"}>{post.isPublic ? "Public" : "Private"}</span></p>
                 </div>
-                <EditButton id={post.id} token={token}/>
+                <EditButton id={post.id} isAuthor={user?.isAuthor ?? null}/>
             </div>
 
             <div className="bg-gray-900 p-6 rounded-lg shadow-md">
@@ -133,24 +155,16 @@ function PostView() {
                       {showForm ? "Hide Form" : "Add Comment"}
                     </button>
                     {showForm && (
-                      <form onSubmit={postComment} className="flex flex-col gap-4 bg-gray-800 p-6 rounded-md w-full max-w-md shadow-lg">
-                        <label htmlFor="title" className="text-sm font-semibold text-white">Title</label>
-                        <input
-                          type="text"
-                          name="title"
-                          id="title"
-                          required
-                          className="p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
+                        <CommentForm
+                            postId={Number(postId)}
+                            userId={user?.userid || ""}
+                            onSubmit={postComment}
+                            submitLabel="Add Comment"
+                            title={commentTitle}
+                            content={commentContent}
+                            setTitle={setCommentTitle}
+                            setContent={setCommentContent}
                         />
-                        <label htmlFor="content" className="text-sm font-semibold text-white">Content</label>
-                        <textarea
-                          name="content"
-                          id="content"
-                          required
-                          className="p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
-                        ></textarea>
-                        <button type="submit">Add Comment</button>
-                      </form>
                     )}
                   </>
                 )}
@@ -177,6 +191,11 @@ function PostView() {
                             <p><span className="text-sm text-gray-400">Updated:</span> {new Date(comment.updatedAt).toLocaleDateString()}</p>
                             <p><span className="text-sm text-gray-400">Author:</span> {comment.user.username}</p>
                             <p><span className="font-semibold">Role:</span> {comment.user.isAuthor ? 'Author' : 'User'}</p>
+                            {comment.user.userid === user?.userid && (
+                            <button className="text-blue-400 hover:underline">
+                                Edit Comment
+                            </button>
+                            )}
                         </div>
                     ))}
                 </div>

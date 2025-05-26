@@ -19,8 +19,8 @@ async function postComment(title: string, content: string, postId: number, userI
                 title,
                 content,
                 postId: Number(postId),
-                userId
-            },
+                userId,
+            }, include: { user: true},
         });
         return newComment;
     } catch (error) {
