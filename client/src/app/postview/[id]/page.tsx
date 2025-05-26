@@ -10,6 +10,7 @@ import EditButton from "@/app/posts/editbutton";
 import { User } from "@/types/users";
 import checkAuth from "@/app/dashboard/checkauth";
 import CommentForm from "../commentform";
+import UpdateComment from "../updateform";
 
 function PostView() {
     const [user, setUser] = useState<User | null>(null);
@@ -27,6 +28,8 @@ function PostView() {
     const [commentError, setCommentError] = useState<string | null>(null);
     const [message, setMessage] = useState<string | null>(null);
     const [showForm, setShowForm] = useState(false);
+
+    const [showUpdateForm, setShowUpdateForm] = useState(false);
 
     useEffect(() => {
         async function checkAuthor() {
@@ -189,14 +192,25 @@ function PostView() {
                             <p><span className="font-semibold text-gray-300">Content:</span> {comment.content}</p>
                             <p><span className="text-sm text-gray-400">Created:</span> {new Date(comment.createdAt).toLocaleDateString()}</p>
                             <p><span className="text-sm text-gray-400">Updated:</span> {new Date(comment.updatedAt).toLocaleDateString()}</p>
-                            <p><span className="text-sm text-gray-400">Author:</span> {comment.user.username}</p>
-                            <p><span className="font-semibold">Role:</span> {comment.user.isAuthor ? 'Author' : 'User'}</p>
-                            {comment.user.userid === user?.userid && (
-                            <button className="text-blue-400 hover:underline">
-                                Edit Comment
-                            </button>
+                            <p><span className="text-sm text-gray-400">Author:</span> {comment.user?.username || "Unknown"}</p>
+                            <p><span className="font-semibold">Role:</span> {comment.user?.isAuthor ? 'Author' : 'User'}</p>
+                            {comment.user && comment.user.userid === user?.userid && (
+                              <div>
+                                <button
+                                  className="text-blue-400 hover:underline"
+                                  onClick={() => setShowUpdateForm(!showUpdateForm)}
+                                >
+                                  {showUpdateForm ? "Hide Update Form" : "Edit Comment"}
+                                </button>
+                                {showUpdateForm && (
+                                  <UpdateComment
+                                    comment={comment}
+                                    token={token ? token : ""}
+                                  />
+                                )}
+                              </div>
                             )}
-                        </div>
+                        </div>  
                     ))}
                 </div>
             </div>
