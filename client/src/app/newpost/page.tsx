@@ -59,17 +59,9 @@ function NewPost() {
                     setContent={setContent}
                     setIsPublic={setIsPublic}
                     submitLabel="Create Post"
+                    error={error}
+                    success={success}
                 />
-                {success && (
-                    <div className="mt-4 p-4 bg-green-900/50 border border-green-500 rounded">
-                        <p className="text-green-400">{success}</p>
-                    </div>
-                )}
-                {error && (
-                    <div className="mt-4 p-4 bg-red-900/50 border border-red-500 rounded">
-                        <p className="text-red-400">{error}</p>
-                    </div>
-                )}
             </div>
         </>
     );
