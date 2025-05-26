@@ -81,7 +81,9 @@ function LoginPage() {
           {error && (
             <p className="bg-red-100 text-red-700 p-2 rounded mt-4">{error}</p>
           )}
-          <Link href="/register" className="text-sm text-blue-400 mt-4 hover:underline">Don't have an account? Register</Link>
+          <p className="text-gray-400 bg-gray-900 p-4 rounded-lg shadow-md">
+            Don&apos;t have an account? <Link href="/sign-up" className="text-blue-400 hover:underline">Sign up</Link>
+          </p>
         </div>
       </>
     );
