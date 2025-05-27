@@ -8,9 +8,9 @@ import { FormEvent } from "react";
 import { fetchPostById } from "../fetchpostid";
 import EditButton from "@/app/posts/editbutton";
 import CommentForm from "../commentform";
-import UpdateComment from "../updateform";
 import { getApiUrl } from '../../services/api';
 import useAuth from "../../hooks/useauth";
+import CommentsList from "../commentlist";
 
 function PostView() {
     const { id } = useParams()
@@ -19,11 +19,13 @@ function PostView() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const { user, token } = useAuth();
+
     const [comments, setComments] = useState<Comment[]>([]);
     const [commentTitle, setCommentTitle] = useState("");
     const [commentContent, setCommentContent] = useState("");
     const [commentLoading, setCommentLoading] = useState(true);
     const [commentError, setCommentError] = useState<string | null>(null);
+    
     const [message, setMessage] = useState<string | null>(null);
     const [showForm, setShowForm] = useState(false);
     const [activeCommentId, setActiveCommentId] = useState<number | null>(null);
@@ -180,44 +182,14 @@ function PostView() {
                     {commentError && <p>Error: {commentError}</p>}
                     {comments.length === 0 && <p>No comments yet</p>}
 
-                    {comments.map((comment) => (
-                        <div
-                            key={comment.id}
-                            className="flex flex-col gap-1 p-6 mb-4 bg-gray-900 text-white rounded-lg shadow-md"
-                        >
-                            <p><span className="font-semibold text-gray-300">Title:</span> {comment.title}</p>
-                            <p><span className="font-semibold text-gray-300">Content:</span> {comment.content}</p>
-                            <p><span className="text-sm text-gray-400">Created:</span> {new Date(comment.createdAt).toISOString().split("T")[0]}</p>
-                            <p><span className="text-sm text-gray-400">Updated:</span> {new Date(comment.updatedAt).toISOString().split("T")[0]}</p>
-                            {comment.user?.username && (
-                                <p><span className="text-sm text-gray-400">Author:</span> {comment.user.username}</p>
-                            )}
-                            <p><span className="font-semibold">Role:</span> {comment.user?.isAuthor ? 'Author' : 'User'}</p>
-                            {comment.user && comment.user.userid === user?.userid && (
-                                <div className="flex flex-col gap-2 mt-2">
-                                    <button
-                                        className="text-blue-400 hover:underline"
-                                        onClick={() =>
-                                            setActiveCommentId(activeCommentId === comment.id ? null : comment.id)}
-                                    >
-                                        {activeCommentId === comment.id ? "Hide Update Form" : "Edit Comment"}
-                                    </button>
-                                    {activeCommentId === comment.id && (
-                                        <UpdateComment
-                                            comment={comment}
-                                            token={token ? token : ""}
-                                        />
-                                    )}
-                                    <button
-                                        className="text-red-400 hover:underline"
-                                        onClick={() => deleteComment(comment.id)}
-                                    >
-                                        Delete Comment
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                    ))}
+                    <CommentsList
+                        comments={comments}
+                        activeCommentId={activeCommentId}
+                        setActiveCommentId={setActiveCommentId}
+                        deleteComment={deleteComment}
+                        token={token || ""}
+                        userid={user?.userid || ""}
+                    />
                 </div>
             </div>
         </>
