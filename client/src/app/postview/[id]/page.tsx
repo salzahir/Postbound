@@ -7,21 +7,18 @@ import { Comment } from "@/types/comments";
 import { FormEvent } from "react";
 import { fetchPostById } from "../fetchpostid";
 import EditButton from "@/app/posts/editbutton";
-import { User } from "@/types/users";
-import checkAuth from "@/app/dashboard/checkauth";
 import CommentForm from "../commentform";
 import UpdateComment from "../updateform";
 import { getApiUrl } from '../../utils/api';
+import useAuth from "../useauth";
 
 function PostView() {
-    const [user, setUser] = useState<User | null>(null);
     const { id } = useParams()
     const postId = id as string;
     const [post, setPost] = useState<Post | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [token, setToken] = useState<string | null>(null);
-
+    const {user, token} = useAuth();
     const [comments, setComments] = useState<Comment[]>([]);
     const [commentTitle, setCommentTitle] = useState("");
     const [commentContent, setCommentContent] = useState("");
@@ -30,28 +27,6 @@ function PostView() {
     const [message, setMessage] = useState<string | null>(null);
     const [showForm, setShowForm] = useState(false);
     const [activeCommentId, setActiveCommentId] = useState<number | null>(null);
-
-    useEffect(() => {
-        async function checkAuthor() {
-            try{ 
-                const userData = await checkAuth("/auth/login");
-                setUser(userData);
-                console.log("User data:", userData);
-            } catch (error) {
-            console.error("Auth check failed:", error);
-        }
-    } checkAuthor();
-    }
-    , [token]);
-
-
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (token) {
-            setToken(token);
-        }
-    }, []);
-
 
   useEffect(() => {
   async function loadPost() {
