@@ -1,5 +1,5 @@
 "use client";
-import Header from "../header";
+import Header from "../components/layout/header";
 import PostCard from "./PostCard";
 import { Post } from "@/types/posts";
 import { useEffect, useState } from "react";
@@ -8,13 +8,13 @@ import { User } from "@/types/users";
 import { getApiUrl } from '../utils/api';
 
 function Posts() {
-    
+
     const [posts, setPosts] = useState<Post[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const[token, setToken] = useState<string | null>(null);
-    const [user, setUser] = useState<User| null>(null);
-    
+    const [token, setToken] = useState<string | null>(null);
+    const [user, setUser] = useState<User | null>(null);
+
     useEffect(() => {
         const fetchPosts = async () => {
             try {
@@ -38,17 +38,17 @@ function Posts() {
 
     useEffect(() => {
         async function checkAuthor() {
-            try{ 
+            try {
                 const data = await checkAuth("/auth/login");
                 setUser(data);
                 console.log("User data:", data);
             } catch (error) {
-            console.error("Auth check failed:", error);
-        }
-    } checkAuthor();
+                console.error("Auth check failed:", error);
+            }
+        } checkAuthor();
     }, []);
 
-    if(posts.length === 0) {
+    if (posts.length === 0) {
         return (
             <>
                 <Header />

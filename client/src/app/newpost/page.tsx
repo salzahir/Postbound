@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { FormEvent } from "react";
-import Header from "../header";
+import Header from "../components/layout/header";
 import PostForm from "./postform";
 import { getApiUrl } from '../utils/api';
 

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { User } from "@/types/users";
 import checkAuth from "./checkauth";
-import Header from "../header";
+import Header from "../components/layout/header";
 import Link from "next/link";
 
 async function verifyAuth(
@@ -33,7 +33,7 @@ function Dashboard() {
     localStorage.removeItem("token");
     router.push("/login");
   }
-  
+
   useEffect(() => {
     verifyAuth(setUser, setLoading, router);
   }, [router]);
@@ -42,40 +42,40 @@ function Dashboard() {
 
   return (
     <>
-    <Header />
-    <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
-      <div className="">
+      <Header />
+      <div className="max-w-4xl mx-auto p-6">
+        <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
+        <div className="">
           {user && (
-              <div className="bg-gray-800 p-6 rounded-lg">
-                <h2 className="text-xl mb-4">Welcome, {user.name}!</h2>
-                <div className="space-y-2">
-                  <p><span className="font-semibold">Username:</span> {user.username}</p>
-                  <p><span className="font-semibold">Email:</span> {user.email}</p>
-                  <p><span className="font-semibold">Role:</span> {user.isAuthor ? 'Author' : 'User'}</p>
-                </div>
-
-                <div className="flex justify-end gap-4 mt-6">
-                  <button
-                    onClick={logoutUser}
-                    className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors"
-                  >
-                    Logout
-                  </button>
-                  {user.isAuthor && (
-                    <Link href="/newpost">
-                      <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors">
-                        Create Post
-                      </button>
-                    </Link>
-                  )}
-                </div>
+            <div className="bg-gray-800 p-6 rounded-lg">
+              <h2 className="text-xl mb-4">Welcome, {user.name}!</h2>
+              <div className="space-y-2">
+                <p><span className="font-semibold">Username:</span> {user.username}</p>
+                <p><span className="font-semibold">Email:</span> {user.email}</p>
+                <p><span className="font-semibold">Role:</span> {user.isAuthor ? 'Author' : 'User'}</p>
               </div>
-            )}
-    </div>
+
+              <div className="flex justify-end gap-4 mt-6">
+                <button
+                  onClick={logoutUser}
+                  className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors"
+                >
+                  Logout
+                </button>
+                {user.isAuthor && (
+                  <Link href="/newpost">
+                    <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors">
+                      Create Post
+                    </button>
+                  </Link>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
 
       </div>
-     
+
     </>
   );
 }
