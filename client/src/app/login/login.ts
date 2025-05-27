@@ -1,4 +1,4 @@
-import { getApiUrl } from '../utils/api';
+import { getApiUrl } from '../services/api';
 
 async function loginUser(formData: FormData) {
   const json = {

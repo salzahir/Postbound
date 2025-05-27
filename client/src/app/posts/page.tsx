@@ -5,7 +5,7 @@ import { Post } from "@/types/posts";
 import { useEffect, useState } from "react";
 import checkAuth from "../dashboard/checkauth";
 import { User } from "@/types/users";
-import { getApiUrl } from '../utils/api';
+import { getApiUrl } from '../services/api';
 
 function Posts() {
 

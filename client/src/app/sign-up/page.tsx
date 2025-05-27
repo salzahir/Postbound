@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Header from "../components/layout/header";
 import { useRouter } from "next/navigation";
-import { getApiUrl } from '../utils/api';
+import { getApiUrl } from '../services/api';
 
 function SignUp() {
     const router = useRouter();

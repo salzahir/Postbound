@@ -9,7 +9,7 @@ import { fetchPostById } from "../fetchpostid";
 import EditButton from "@/app/posts/editbutton";
 import CommentForm from "../commentform";
 import UpdateComment from "../updateform";
-import { getApiUrl } from '../../utils/api';
+import { getApiUrl } from '../../services/api';
 import useAuth from "../../hooks/useauth";
 
 function PostView() {

@@ -1,4 +1,4 @@
-import { getApiUrl } from '../utils/api';
+import { getApiUrl } from '../services/api';
 
 export async function fetchPostById(id: string) {
   try {

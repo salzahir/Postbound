@@ -1,4 +1,4 @@
-import { getApiUrl } from '../utils/api';
+import { getApiUrl } from '../services/api';
 
 async function checkAuth(param: string) {
   const token = localStorage.getItem("token");

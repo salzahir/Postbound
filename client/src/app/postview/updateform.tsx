@@ -1,6 +1,6 @@
 import { Comment } from "@/types/comments";
 import React, { useState } from "react";
-import { getApiUrl } from '../utils/api';
+import { getApiUrl } from '../services/api';
 
 function UpdateComment({comment, token}: {comment: Comment, token: string}) {
     const [title, setTitle] = useState(comment.title);

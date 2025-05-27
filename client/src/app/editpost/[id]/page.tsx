@@ -5,7 +5,7 @@ import PostForm from "@/app/newpost/postform";
 import Header from "@/app/components/layout/header";
 import { fetchPostById } from "../../postview/fetchpostid";
 import { useRouter } from "next/navigation";
-import { getApiUrl } from '../../utils/api';
+import { getApiUrl } from '../../services/api';
 
 function EditPost() {
     const [title, setTitle] = useState("");
