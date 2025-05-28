@@ -1,67 +1,74 @@
-"use client";
+import { FormEvent } from "react";
 
 type PostFormProps = {
+    onSubmit: (event: FormEvent<HTMLFormElement>) => void;
     title: string;
     content: string;
     isPublic: boolean;
-    setTitle: React.Dispatch<React.SetStateAction<string>>;
-    setContent: React.Dispatch<React.SetStateAction<string>>;
-    setIsPublic: React.Dispatch<React.SetStateAction<boolean>>;
-    onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+    setTitle: (title: string) => void;
+    setContent: (content: string) => void;
+    setIsPublic: (isPublic: boolean) => void;
+    submitLabel: string;
     error: string;
     success: string;
-    submitLabel: string;
 };
 
 function PostForm({
+    onSubmit,
     title,
     content,
     isPublic,
     setTitle,
     setContent,
     setIsPublic,
-    onSubmit,
+    submitLabel,
     error,
     success,
-    submitLabel
 }: PostFormProps) {
     return (
-        <>
-            <form onSubmit={onSubmit}>
-                <label htmlFor="title">Title</label>
+        <form onSubmit={onSubmit} className="w-full max-w-2xl bg-gray-800 p-8 rounded-lg shadow-lg">
+            <div className="mb-4">
+                <label htmlFor="title" className="block text-white mb-2">Title</label>
                 <input
                     type="text"
-                    name="title"
+                    id="title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
+                    className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:border-blue-500 focus:outline-none"
+                    required
                 />
-                <label htmlFor="content">Content</label>
-                <input
-                    type="text"
-                    name="content"
+            </div>
+            <div className="mb-4">
+                <label htmlFor="content" className="block text-white mb-2">Content</label>
+                <textarea
+                    id="content"
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
+                    className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:border-blue-500 focus:outline-none h-32"
+                    required
                 />
-                <label className="flex items-center gap-2 text-sm">
+            </div>
+            <div className="mb-4">
+                <label className="flex items-center text-white">
                     <input
                         type="checkbox"
-                        name="isPublic"
                         checked={isPublic}
                         onChange={(e) => setIsPublic(e.target.checked)}
+                        className="mr-2"
                     />
                     Public Post
                 </label>
-                <button
-                    type="submit"
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
-                >
-                    {submitLabel}
-                </button>
-            </form>
-            {success && <p className="text-green-500 mt-4">{success}</p>}
-            {error && <p className="text-red-500 mt-4">{error}</p>}
-        </>
+            </div>
+            {error && <p className="text-red-500 mb-4">{error}</p>}
+            {success && <p className="text-green-500 mb-4">{success}</p>}
+            <button
+                type="submit"
+                className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+            >
+                {submitLabel}
+            </button>
+        </form>
     );
 }
 
-export default PostForm;
+export default PostForm; 

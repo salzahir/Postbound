@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { FormEvent } from "react";
-import Header from "../components/layout/Header";
-import PostForm from "./PostForm";
+import Header from "../components/layout/header";
+import PostForm from "./postform";
 import { getApiUrl } from '../services/api';
 
 function NewPost() {

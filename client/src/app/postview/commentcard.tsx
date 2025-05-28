@@ -1,5 +1,5 @@
 import { Comment } from "@/types/comments"
-import UpdateComment from "./updateform"
+import UpdateComment from "./UpdateComment"
 
 type CommentCardProps = {
     comment: Comment;
