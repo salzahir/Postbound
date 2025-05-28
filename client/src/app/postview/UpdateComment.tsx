@@ -1,25 +1,16 @@
 import { Comment } from "@/types/comments";
 import { useState } from "react";
-import { getApiUrl } from '../services/api';
+import useApi from "../hooks/useApi";
 
-function UpdateComment({comment, token}: {comment: Comment, token: string}) {
+
+function UpdateComment({comment}: {comment: Comment}) {
     const [title, setTitle] = useState(comment.title);
     const [content, setContent] = useState(comment.content);
-    
+    const {fetchData, error, loading} = useApi(`/comments/${comment.id}`, "PUT", true);
+
     async function updateComment() {
         try {
-            const json = { title, content };
-            const res = await fetch(getApiUrl(`/comments/${comment.id}`), {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
-                },
-                body: JSON.stringify(json)
-            });
-            if (!res.ok) {
-                throw new Error("Failed to update comment");
-            }
+            await fetchData({title, content});
             window.location.reload();
         } catch (error) {
             console.error("Error updating comment:", error);
@@ -43,8 +34,10 @@ function UpdateComment({comment, token}: {comment: Comment, token: string}) {
                 onClick={updateComment}
                 className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
             >
-                Update Comment
+            {loading ? "Updating..." : "Update Comment"}                
             </button>
+            {loading && <p className="text-gray-400">Updating comment...</p>}
+            {error && <p className="text-red-400">Error: {error}</p>}
         </div>
     );
 }

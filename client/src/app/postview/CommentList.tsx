@@ -4,13 +4,12 @@ import CommentCard from "./CommentCard";
 type CommentsListProps = {
     comments: Comment[];
     userid: string;
-    token: string;
     setActiveCommentId: (id: number | null) => void;
     activeCommentId: number | null;
     deleteComment: (id: number) => void;
 };
 
-function CommentsList({comments, userid, token, setActiveCommentId, activeCommentId, deleteComment}: CommentsListProps) {
+function CommentsList({comments, userid, setActiveCommentId, activeCommentId, deleteComment}: CommentsListProps) {
     return (
         comments.map((comment) => (
             <CommentCard
@@ -19,7 +18,6 @@ function CommentsList({comments, userid, token, setActiveCommentId, activeCommen
                 setActiveCommentId={setActiveCommentId}
                 activeCommentId={activeCommentId}
                 deleteComment={deleteComment}
-                token={token}
                 userid={userid}
             />
         ))

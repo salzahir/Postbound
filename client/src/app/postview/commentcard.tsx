@@ -6,11 +6,10 @@ type CommentCardProps = {
     activeCommentId: number | null;
     setActiveCommentId: (id: number | null) => void;
     deleteComment: (id: number) => void;
-    token: string | null;
     userid: string;
 }
 
-function CommentCard({ comment, setActiveCommentId, activeCommentId, deleteComment, token, userid }: CommentCardProps) {
+function CommentCard({ comment, setActiveCommentId, activeCommentId, deleteComment, userid }: CommentCardProps) {
   return (
     <div
       key={comment.id}
@@ -35,7 +34,6 @@ function CommentCard({ comment, setActiveCommentId, activeCommentId, deleteComme
           {activeCommentId === comment.id && (
             <UpdateComment
               comment={comment}
-              token={token || ""}
             />
           )}
           <button
