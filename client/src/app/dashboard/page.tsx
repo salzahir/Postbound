@@ -3,30 +3,13 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { User } from "@/types/users";
-import checkAuth from "./checkauth";
 import Header from "../components/layout/header";
 import Link from "next/link";
-
-async function verifyAuth(
-  setUser: React.Dispatch<React.SetStateAction<User | null>>,
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
-  router: ReturnType<typeof useRouter>
-) {
-  try {
-    const data = await checkAuth("/auth/login");
-    setUser(data);
-    console.log("User data:", data);
-  } catch (error) {
-    console.error("Auth check failed:", error);
-    router.push("/login");
-  } finally {
-    setLoading(false);
-  }
-}
+import useApi from "../hooks/useApi";
 
 function Dashboard() {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
+  const {fetchData, error, loading} = useApi("/auth/login", "GET", true);
   const [user, setUser] = useState<User | null>(null);
 
   function logoutUser() {
@@ -35,8 +18,17 @@ function Dashboard() {
   }
 
   useEffect(() => {
-    verifyAuth(setUser, setLoading, router);
-  }, [router]);
+    async function verifyAuth() {
+      try {
+        const data = await fetchData();
+        setUser(data);
+        console.log("User data:", data);
+      } catch (error) {
+        console.error("Auth check failed:", error);
+        router.push("/login");
+      } 
+    } verifyAuth();
+  },  [fetchData, router]);
 
   if (loading) return <p>Loading...</p>;
 
@@ -69,11 +61,11 @@ function Dashboard() {
                     </button>
                   </Link>
                 )}
+                {error && (<p className="text-red-500 mt-4">{error}</p>)}
               </div>
             </div>
           )}
         </div>
-
       </div>
 
     </>

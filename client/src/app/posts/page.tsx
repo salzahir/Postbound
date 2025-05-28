@@ -3,7 +3,6 @@ import Header from "../components/layout/header";
 import PostCard from "./PostCard";
 import { Post } from "@/types/posts";
 import { useEffect, useState } from "react";
-import checkAuth from "../dashboard/checkauth";
 import { User } from "@/types/users";
 import useApi from "../hooks/useApi";
 
@@ -13,6 +12,7 @@ function Posts() {
     const [token, setToken] = useState<string | null>(null);
     const [user, setUser] = useState<User | null>(null);
     const {fetchData, error, loading} = useApi("/posts", "GET", false);
+    const {fetchData: checkAuth} = useApi("/auth/login", "GET", true);
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -30,14 +30,14 @@ function Posts() {
     useEffect(() => {
         async function checkAuthor() {
             try {
-                const data = await checkAuth("/auth/login");
+                const data = await checkAuth();
                 setUser(data);
                 console.log("User data:", data);
             } catch (error) {
                 console.error("Auth check failed:", error);
             }
         } checkAuthor();
-    }, []);
+    }, [checkAuth]);
 
     if (posts.length === 0) {
         return (

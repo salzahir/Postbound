@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { User } from '@/types/users';
-import checkAuth from '../dashboard/checkauth';
+import useApi from './useApi';
 
 function useAuth() {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const {fetchData} = useApi("/auth/login", "GET", true);
 
   useEffect(() => {
     async function checkAuthor() {
@@ -12,7 +13,7 @@ function useAuth() {
         const storedToken = localStorage.getItem("token");
         if (storedToken) {
           setToken(storedToken);
-          const userData = await checkAuth("/auth/login");
+          const userData = await fetchData();
           setUser(userData);
         }
       } catch (error) {
@@ -21,7 +22,7 @@ function useAuth() {
     }
 
     checkAuthor();
-  }, []);
+  }, [fetchData]);
 
   const isAuthenticated = Boolean(user && token);
 

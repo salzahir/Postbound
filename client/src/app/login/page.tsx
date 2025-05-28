@@ -1,33 +1,32 @@
 "use client";
 
 import { FormEvent } from "react";
-import loginUser from "./login";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Header from "../components/layout/header";
 import Link from "next/link";
+import useApi from "../hooks/useApi";
 
 function LoginPage() {
   const router = useRouter();
-  const [error, setError] = useState("");
   const [success, setSucess] = useState("");
-
+  const {fetchData, loading, error} = useApi("/auth/login", "POST", false);
+  
   async function handleLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setError("");
     setSucess("");
-
     try {
       const formData = new FormData(event.currentTarget);
-      const data = await loginUser(formData);
-      setSucess("Login successful!");
+      const json = Object.fromEntries(formData.entries());
+      const data = await fetchData(json);
       console.log("Login response:", data);
+      localStorage.setItem('token', data.token);
+      setSucess("Login successful!");
       setTimeout(() => {
         router.push("/dashboard");
       }, 1000);
     } catch (error) {
       console.error("Error during login:", error);
-      setError("Login failed. Please check your credentials.");
     }
   }
 
@@ -70,9 +69,10 @@ function LoginPage() {
           </div>
           <button
             type="submit"
-            className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors"
+            disabled={loading}
+            className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors disabled:opacity-50"
           >
-            Login
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
         {success && (
