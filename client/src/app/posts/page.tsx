@@ -5,36 +5,27 @@ import { Post } from "@/types/posts";
 import { useEffect, useState } from "react";
 import checkAuth from "../dashboard/checkauth";
 import { User } from "@/types/users";
-import { getApiUrl } from '../services/api';
+import useApi from "../hooks/useApi";
 
 function Posts() {
 
     const [posts, setPosts] = useState<Post[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
     const [token, setToken] = useState<string | null>(null);
     const [user, setUser] = useState<User | null>(null);
+    const {fetchData, error, loading} = useApi("/posts", "GET", false);
 
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const storedToken = localStorage.getItem("token");
-                if (storedToken) {
-                    setToken(storedToken);
-                }
-                const fetchedPosts = await fetch(getApiUrl("/posts"));
-                const data = await fetchedPosts.json() as Post[];
+                const data = await fetchData();
                 setPosts(data);
-                setLoading(false);
             } catch (error) {
                 console.error("Error fetching posts:", error);
-                setError("Failed to fetch posts");
-                setLoading(false);
-            }
+                setPosts([]);
+                setToken(null);}
         };
-
         fetchPosts();
-    }, []);
+    }, [fetchData]);
 
     useEffect(() => {
         async function checkAuthor() {
