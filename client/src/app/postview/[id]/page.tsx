@@ -1,13 +1,13 @@
 "use client"
 import { useParams } from "next/navigation"
 import { useState, useEffect } from "react";
-import Header from "../../components/layout/header";
+import Header from "../../components/layout/Header";
 import { Post } from "@/types/posts";
 import { fetchPostById } from "../fetchpostid";
-import EditButton from "@/app/posts/editbutton";
-import CommentForm from "../commentform";
+import EditButton from "@/app/posts/EditButton";
+import CommentForm from "../CommentForm";
 import useAuth from "../../hooks/useAuth";
-import CommentsList from "../commentlist";
+import CommentsList from "../CommentList";
 import useComments from "../../hooks/useComments";
 
 function PostView() {

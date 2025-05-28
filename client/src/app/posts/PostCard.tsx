@@ -1,6 +1,6 @@
 import { Post } from "../../types/posts";
 import Link from "next/link";
-import EditButton from "./editbutton";
+import EditButton from "./EditButton";
 
 type Props = {
   post: Post;

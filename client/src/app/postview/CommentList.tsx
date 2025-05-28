@@ -1,5 +1,5 @@
 import { Comment } from "@/types/comments"
-import CommentCard from "./commentcard";
+import CommentCard from "./CommentCard";
 
 type CommentsListProps = {
     comments: Comment[];
