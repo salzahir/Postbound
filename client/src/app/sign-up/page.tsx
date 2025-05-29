@@ -2,12 +2,13 @@
 import { useState } from "react";
 import Header from "../components/layout/Header";
 import { useRouter } from "next/navigation";
-import { getApiUrl } from '../services/api';
+import useApi from "../hooks/useApi";
 
 function SignUp() {
     const router = useRouter();
-    const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    const [error, setError] = useState("");
+    const {fetchData} = useApi("/auth/sign-up", "POST", false);
 
     async function handleRegister(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -26,23 +27,8 @@ function SignUp() {
         }
 
         try {
-            setError("");
             setSuccess("");
-            const res = await fetch(getApiUrl("/auth/sign-up"), {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(json),
-            });
-
-            const data = await res.json();
-
-            if (!res.ok) {
-                setError(data.message || "Failed to register");
-                return;
-            }
-
+            await fetchData(json);
             setSuccess("Registration successful! Redirecting to login...");
             setTimeout(() => {
                 router.push("/login");
