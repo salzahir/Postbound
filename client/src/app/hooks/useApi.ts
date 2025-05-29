@@ -3,11 +3,11 @@ import { getApiUrl } from "../services/api";
 
 type RequestBody = Record<string, unknown>;
 
-function useApi(endpoint: string, requiresAuth: boolean) {
+function useApi(method: string, requiresAuth: boolean) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const fetchData = useCallback(async (method: string, body?: RequestBody) => {
+    const fetchData = useCallback(async (endpoint: string, body?: RequestBody) => {
         setLoading(true);
         setError(null);
         try {
@@ -27,21 +27,25 @@ function useApi(endpoint: string, requiresAuth: boolean) {
             });
 
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || "Request failed");
+                let errorMessage = "Request failed";
+                try {
+                    const errorData = await response.json();
+                    errorMessage = errorData.message || errorMessage;
+                } catch {
+                    errorMessage = response.statusText || errorMessage;
+                }
+                setError(errorMessage);
+                return null;
             }
             return await response.json();
         } catch (error) {
-            if (error instanceof Error) {
-                setError(error.message);
-            } else {
-                setError("An unknown error occurred");
-            }
-            throw error;
+            const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+            setError(errorMessage);
+            return null;
         } finally {
             setLoading(false);
         }
-    }, [endpoint, requiresAuth]);
+    }, [method, requiresAuth]);
 
     return { fetchData, loading, error };
 }

@@ -7,31 +7,25 @@ function useComments(postId: string, token: string | null, userId: string | null
     const [commentTitle, setCommentTitle] = useState("");
     const [commentContent, setCommentContent] = useState("");
     const [commentLoading, setCommentLoading] = useState(true);
-    const [commentError, setCommentError] = useState<string | null>(null);
     const [message, setMessage] = useState<string | null>(null);
-    const {fetchData} = useApi("GET", false);
-    const {fetchData: postCommentApi} = useApi("POST", true);
-    const {fetchData: deleteCommentApi} = useApi("DELETE", true);
+    const {fetchData, error: fetchError} = useApi("GET", false);
+    const {fetchData: postCommentApi, error: postError} = useApi("POST", true);
+    const {fetchData: deleteCommentApi, error: deleteError} = useApi("DELETE", true);
 
     useEffect(() => {
         const fetchComments = async () => {
-            try {
-                const comments = await fetchData("/comments/post/${postId}");
-                setComments(comments);
-                setCommentLoading(false);
-            } catch (error) {
-                console.error("Error fetching comments:", error);
-                setCommentError("Failed to fetch comments");
-                setCommentLoading(false);
+            const data = await fetchData(`/comments/post/${postId}`);
+            if (data !== null) {
+                setComments(data);
             }
+            setCommentLoading(false);
         }
         fetchComments();
-    }, [fetchData]);
+    }, [fetchData, postId]);
 
     async function postComment(event: FormEvent<HTMLFormElement>) {
-        setError("")
-        setMessage("")
-        setCommentError("")
+        setError("");
+        setMessage("");
         event.preventDefault();
         const json = {
             title: commentTitle,
@@ -39,25 +33,19 @@ function useComments(postId: string, token: string | null, userId: string | null
             postId: Number(postId),
             userId: userId || "",
         };
-        try {
-            const data = await postCommentApi("/comments/post", json);
+        const data = await postCommentApi("/comments/post", json);
+        if (data !== null) {
             setComments((prevComments) => [...prevComments, data]);
             setMessage("Comment posted successfully!");
-            setCommentLoading(false);
-        } catch (error) {
-            console.error("Error posting comment:", error);
-            setCommentError("Failed to post comment");
         }
+        setCommentLoading(false);
     }
 
     async function deleteComment(id: number) {
-        try {
-            await deleteCommentApi(`/comments/${id}`);
+        const success = await deleteCommentApi(`/comments/${id}`);
+        if (success !== null) {
             setComments((prevComments) => prevComments.filter((comment) => comment.id !== id));
             setMessage("Comment deleted successfully!");
-        } catch (error) {
-            console.error("Error deleting comment:", error);
-            setCommentError("Failed to delete comment");
         }
     }
 
@@ -68,7 +56,7 @@ function useComments(postId: string, token: string | null, userId: string | null
         commentContent,
         setCommentContent,
         commentLoading,
-        commentError,
+        commentError: fetchError || postError || deleteError,
         message,
         postComment,
         deleteComment,
