@@ -2,49 +2,30 @@
 
 import { useState } from "react";
 import { FormEvent } from "react";
-import Header from "../header";
+import Header from "../components/layout/Header";
 import PostForm from "./postform";
-import { getApiUrl } from '../utils/api';
+import useApi from "../hooks/useApi";
 
 function NewPost() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [isPublic, setIsPublic] = useState(false);
-    const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    const {fetchData, error} = useApi("POST", true);
 
     async function handleSubmitPost(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         try {
-            setError("");
-            setSuccess("");
-            const token = localStorage.getItem("token");
-            if (!token) {
-                console.error("No token found");
-                return;
-            }
             const json = { title, content, isPublic };
-            const res = await fetch(getApiUrl("/posts"), {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
-                },
-                body: JSON.stringify(json)
-            });
-            if (!res.ok) {
-                throw new Error("Failed to create post");
-            }
+            await fetchData("/posts",json);
             setSuccess("Post created successfully!");
             setTitle("");
             setContent("");
             setIsPublic(false);
         } catch (error) {
             console.error("Error creating post:", error);
-            setError("Failed to create post. Please try again.");
         }
     }
-
     return (
         <>
             <Header />
@@ -59,7 +40,7 @@ function NewPost() {
                     setContent={setContent}
                     setIsPublic={setIsPublic}
                     submitLabel="Create Post"
-                    error={error}
+                    error={error || ""}
                     success={success}
                 />
             </div>

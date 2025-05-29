@@ -1,54 +1,45 @@
 "use client";
-import Header from "../header";
+import Header from "../components/layout/Header";
 import PostCard from "./PostCard";
 import { Post } from "@/types/posts";
 import { useEffect, useState } from "react";
-import checkAuth from "../dashboard/checkauth";
 import { User } from "@/types/users";
-import { getApiUrl } from '../utils/api';
+import useApi from "../hooks/useApi";
 
 function Posts() {
-    
+
     const [posts, setPosts] = useState<Post[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const[token, setToken] = useState<string | null>(null);
-    const [user, setUser] = useState<User| null>(null);
-    
+    const [token, setToken] = useState<string | null>(null);
+    const [user, setUser] = useState<User | null>(null);
+    const {fetchData, error, loading} = useApi("GET", false);
+    const {fetchData: checkAuth} = useApi("GET", true);
+
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const storedToken = localStorage.getItem("token");
-                if (storedToken) {
-                    setToken(storedToken);
-                }
-                const fetchedPosts = await fetch(getApiUrl("/posts"));
-                const data = await fetchedPosts.json() as Post[];
+                const data = await fetchData("/posts");
                 setPosts(data);
-                setLoading(false);
             } catch (error) {
                 console.error("Error fetching posts:", error);
-                setError("Failed to fetch posts");
-                setLoading(false);
-            }
+                setPosts([]);
+                setToken(null);}
         };
-
         fetchPosts();
-    }, []);
+    }, [fetchData]);
 
     useEffect(() => {
         async function checkAuthor() {
-            try{ 
+            try {
                 const data = await checkAuth("/auth/login");
                 setUser(data);
                 console.log("User data:", data);
             } catch (error) {
-            console.error("Auth check failed:", error);
-        }
-    } checkAuthor();
-    }, []);
+                console.error("Auth check failed:", error);
+            }
+        } checkAuthor();
+    }, [checkAuth]);
 
-    if(posts.length === 0) {
+    if (posts.length === 0) {
         return (
             <>
                 <Header />

@@ -2,10 +2,10 @@
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import PostForm from "@/app/newpost/postform";
-import Header from "@/app/header";
+import Header from "@/app/components/layout/Header";
 import { fetchPostById } from "../../postview/fetchpostid";
 import { useRouter } from "next/navigation";
-import { getApiUrl } from '../../utils/api';
+import { getApiUrl } from '../../services/api';
 
 function EditPost() {
     const [title, setTitle] = useState("");
