@@ -11,13 +11,13 @@ function Posts() {
     const [posts, setPosts] = useState<Post[]>([]);
     const [token, setToken] = useState<string | null>(null);
     const [user, setUser] = useState<User | null>(null);
-    const {fetchData, error, loading} = useApi("/posts", "GET", false);
-    const {fetchData: checkAuth} = useApi("/auth/login", "GET", true);
+    const {fetchData, error, loading} = useApi("GET", false);
+    const {fetchData: checkAuth} = useApi("GET", true);
 
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const data = await fetchData();
+                const data = await fetchData("/posts");
                 setPosts(data);
             } catch (error) {
                 console.error("Error fetching posts:", error);
@@ -30,7 +30,7 @@ function Posts() {
     useEffect(() => {
         async function checkAuthor() {
             try {
-                const data = await checkAuth();
+                const data = await checkAuth("/auth/login");
                 setUser(data);
                 console.log("User data:", data);
             } catch (error) {

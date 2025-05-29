@@ -11,13 +11,13 @@ function NewPost() {
     const [content, setContent] = useState("");
     const [isPublic, setIsPublic] = useState(false);
     const [success, setSuccess] = useState("");
-    const {fetchData, error} = useApi("/posts", "POST", true);
+    const {fetchData, error} = useApi("POST", true);
 
     async function handleSubmitPost(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         try {
             const json = { title, content, isPublic };
-            await fetchData(json);
+            await fetchData("/posts",json);
             setSuccess("Post created successfully!");
             setTitle("");
             setContent("");

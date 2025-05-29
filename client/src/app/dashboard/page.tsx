@@ -9,7 +9,7 @@ import useApi from "../hooks/useApi";
 
 function Dashboard() {
   const router = useRouter();
-  const {fetchData, error, loading} = useApi("/auth/login", "GET", true);
+  const {fetchData, error, loading} = useApi("GET", true);
   const [user, setUser] = useState<User | null>(null);
 
   function logoutUser() {
@@ -20,7 +20,7 @@ function Dashboard() {
   useEffect(() => {
     async function verifyAuth() {
       try {
-        const data = await fetchData();
+        const data = await fetchData("/auth/login");
         setUser(data);
         console.log("User data:", data);
       } catch (error) {
