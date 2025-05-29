@@ -8,7 +8,7 @@ function SignUp() {
     const router = useRouter();
     const [success, setSuccess] = useState("");
     const [error, setError] = useState("");
-    const {fetchData} = useApi("/auth/sign-up", "POST", false);
+    const {fetchData} = useApi("POST", false);
 
     async function handleRegister(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -28,7 +28,7 @@ function SignUp() {
 
         try {
             setSuccess("");
-            await fetchData(json);
+            await fetchData("/auth/sign-up", json);
             setSuccess("Registration successful! Redirecting to login...");
             setTimeout(() => {
                 router.push("/login");

@@ -10,7 +10,7 @@ import useApi from "../hooks/useApi";
 function LoginPage() {
   const router = useRouter();
   const [success, setSucess] = useState("");
-  const {fetchData, loading, error} = useApi("/auth/login", "POST", false);
+  const {fetchData, loading, error} = useApi("POST", false);
   
   async function handleLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -18,7 +18,7 @@ function LoginPage() {
     try {
       const formData = new FormData(event.currentTarget);
       const json = Object.fromEntries(formData.entries());
-      const data = await fetchData(json);
+      const data = await fetchData("/auth/login", json);
       console.log("Login response:", data);
       localStorage.setItem('token', data.token);
       setSucess("Login successful!");
