@@ -2,18 +2,30 @@ import { Comment } from "@/types/comments";
 import { useState } from "react";
 import useApi from "../hooks/useApi";
 
+interface UpdateCommentProps {
+    comment: Comment;
+    onUpdate: () => void;
+    onCancel: () => void;
+}
 
-function UpdateComment({comment}: {comment: Comment}) {
+export default function UpdateComment({ comment, onUpdate, onCancel }: UpdateCommentProps) {
     const [title, setTitle] = useState(comment.title);
     const [content, setContent] = useState(comment.content);
-    const {fetchData, error, loading} = useApi(`/comments/${comment.id}`, "PUT", true);
+    const {fetchData, error, loading} = useApi("PUT", true);
+
+    function isFormInvalid() {
+        return loading || 
+               !title.trim() || 
+               !content.trim() || 
+               title.length < 3 || 
+               title.length > 50 || 
+               content.length < 5;
+    }
 
     async function updateComment() {
-        try {
-            await fetchData({title, content});
-            window.location.reload();
-        } catch (error) {
-            console.error("Error updating comment:", error);
+        const data = await fetchData(`/comments/${comment.id}`, { title, content });
+        if (data !== null) {
+            onUpdate();
         }
     }
 
@@ -24,22 +36,38 @@ function UpdateComment({comment}: {comment: Comment}) {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 className="p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Comment title (3-50 characters)"
+                minLength={3}
+                maxLength={50}
             />
             <textarea
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 className="p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Comment content (minimum 5 characters)"
+                minLength={5}
             />
-            <button
-                onClick={updateComment}
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
-            >
-            {loading ? "Updating..." : "Update Comment"}                
-            </button>
+            <div className="flex gap-2">
+                <button
+                    onClick={onCancel}
+                    className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors"
+                >
+                    Cancel
+                </button>
+                <button
+                    onClick={updateComment}
+                    disabled={isFormInvalid()}
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors disabled:opacity-50"
+                >
+                    {loading ? "Updating..." : "Update Comment"}
+                </button>
+            </div>
             {loading && <p className="text-gray-400">Updating comment...</p>}
             {error && <p className="text-red-400">Error: {error}</p>}
+            <div className="text-sm text-gray-400">
+                <p>Title must be between 3 and 50 characters</p>
+                <p>Content must be at least 5 characters long</p>
+            </div>
         </div>
     );
 }
-
-export default UpdateComment;

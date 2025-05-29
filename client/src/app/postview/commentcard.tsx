@@ -34,6 +34,11 @@ function CommentCard({ comment, setActiveCommentId, activeCommentId, deleteComme
           {activeCommentId === comment.id && (
             <UpdateComment
               comment={comment}
+              onUpdate={() => {
+                setActiveCommentId(null);
+                window.location.reload();
+              }}
+              onCancel={() => setActiveCommentId(null)}
             />
           )}
           <button
