@@ -3,11 +3,11 @@ import { getApiUrl } from "../services/api";
 
 type RequestBody = Record<string, unknown>;
 
-function useApi(endpoint: string, method: string, requiresAuth: boolean) {
+function useApi(endpoint: string, requiresAuth: boolean) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const fetchData = useCallback(async (body?: RequestBody) => {
+    const fetchData = useCallback(async (method: string, body?: RequestBody) => {
         setLoading(true);
         setError(null);
         try {
@@ -41,7 +41,7 @@ function useApi(endpoint: string, method: string, requiresAuth: boolean) {
         } finally {
             setLoading(false);
         }
-    }, [endpoint, method, requiresAuth]);
+    }, [endpoint, requiresAuth]);
 
     return { fetchData, loading, error };
 }
