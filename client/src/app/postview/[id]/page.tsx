@@ -111,7 +111,6 @@ function PostView() {
                         activeCommentId={activeCommentId}
                         setActiveCommentId={setActiveCommentId}
                         deleteComment={deleteComment}
-                        token={token || ""}
                         userid={user?.userid || ""}
                     />
                 </div>

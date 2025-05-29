@@ -5,7 +5,7 @@ import useApi from './useApi';
 function useAuth() {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
-  const {fetchData} = useApi("/auth/login", "GET", true);
+  const {fetchData} = useApi("GET", true);
 
   useEffect(() => {
     async function checkAuthor() {
@@ -13,7 +13,7 @@ function useAuth() {
         const storedToken = localStorage.getItem("token");
         if (storedToken) {
           setToken(storedToken);
-          const userData = await fetchData();
+          const userData = await fetchData("/auth/login");
           setUser(userData);
         }
       } catch (error) {
