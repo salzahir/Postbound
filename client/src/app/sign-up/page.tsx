@@ -1,6 +1,6 @@
 'use client';
 import { useState } from "react";
-import Header from "../components/layout/header";
+import Header from "../components/layout/Header";
 import { useRouter } from "next/navigation";
 import { getApiUrl } from '../services/api';
 

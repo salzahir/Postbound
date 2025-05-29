@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { User } from "@/types/users";
-import Header from "../components/layout/header";
+import Header from "../components/layout/Header";
 import Link from "next/link";
 import useApi from "../hooks/useApi";
 

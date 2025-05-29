@@ -1,7 +1,7 @@
 "use client"
 import { useParams } from "next/navigation"
 import { useState, useEffect } from "react";
-import Header from "@/app/components/layout/header";
+import Header from "@/app/components/layout/Header";
 import { Post } from "@/types/posts";
 import { fetchPostById } from "../fetchpostid";
 import EditButton from "@/app/posts/EditButton";

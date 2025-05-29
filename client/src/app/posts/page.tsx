@@ -1,5 +1,5 @@
 "use client";
-import Header from "../components/layout/header";
+import Header from "../components/layout/Header";
 import PostCard from "./PostCard";
 import { Post } from "@/types/posts";
 import { useEffect, useState } from "react";

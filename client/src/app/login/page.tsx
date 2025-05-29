@@ -3,7 +3,7 @@
 import { FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Header from "../components/layout/header";
+import Header from "../components/layout/Header";
 import Link from "next/link";
 import useApi from "../hooks/useApi";
 
