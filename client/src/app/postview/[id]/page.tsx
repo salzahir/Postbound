@@ -6,7 +6,7 @@ import { Post } from "@/types/posts";
 import { fetchPostById } from "../fetchpostid";
 import EditButton from "@/app/posts/EditButton";
 import CommentForm from "../CommentForm";
-import useAuth from "../../hooks/useAuth";
+import useAuth from "../../hooks/useauth";
 import CommentsList from "../CommentList";
 import useComments from "../../hooks/useComments";
 

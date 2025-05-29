@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { FormEvent } from "react";
-import Header from "../components/layout/Header";
-import PostForm from "./postform";
+import Header from "@/app/components/layout/Header";
+import PostForm from "./PostForm";
 import useApi from "../hooks/useApi";
 
 function NewPost() {

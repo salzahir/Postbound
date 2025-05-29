@@ -1,7 +1,7 @@
 "use client"
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import PostForm from "@/app/newpost/postform";
+import PostForm from "@/app/newpost/PostForm";
 import Header from "@/app/components/layout/Header";
 import { fetchPostById } from "../../postview/fetchpostid";
 import { useRouter } from "next/navigation";
