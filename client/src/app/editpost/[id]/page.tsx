@@ -7,7 +7,6 @@ import { fetchPostById } from "../../postview/fetchpostid";
 import { useRouter } from "next/navigation";
 import { getApiUrl } from '../../services/api';
 import useApi from "../../hooks/useApi";
-import ApiError from "../../components/error/ApiError";
 
 function EditPost() {
     const [title, setTitle] = useState("");

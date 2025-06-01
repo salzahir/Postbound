@@ -5,7 +5,6 @@ import { FormEvent } from "react";
 import Header from "@/app/components/layout/Header";
 import PostForm from "./PostForm";
 import useApi from "../hooks/useApi";
-import ApiError from "../components/error/ApiError";
 
 function NewPost() {
     const [title, setTitle] = useState("");
@@ -27,6 +26,7 @@ function NewPost() {
             console.error("Error creating post:", error);
         }
     }
+
     return (
         <>
             <Header />
