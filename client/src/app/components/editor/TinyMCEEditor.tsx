@@ -45,7 +45,16 @@ export default function TinyMCEEditor({ value, onChange, height = 500 }: TinyMCE
                 forced_root_block: 'p',
                 remove_linebreaks: true,
                 convert_urls: false,
-                entity_encoding: 'raw'
+                entity_encoding: 'raw',
+                browser_spellcheck: true,
+                contextmenu: false,
+                branding: false,
+                promotion: false,
+                setup: (editor) => {
+                    editor.on('init', () => {
+                        editor.getContainer().style.transition = "border-color 0.15s ease-in-out";
+                    });
+                }
             }}
         />
     );

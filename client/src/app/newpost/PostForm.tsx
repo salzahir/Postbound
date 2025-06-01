@@ -1,6 +1,11 @@
 import { FormEvent } from "react";
-import TinyMCEEditor from "../components/editor/TinyMCEEditor";
+import dynamic from 'next/dynamic';
 import ApiError from "../components/error/ApiError";
+
+const TinyMCEEditor = dynamic(() => import("../components/editor/TinyMCEEditor"), {
+    ssr: false,
+    loading: () => <div className="h-[500px] bg-gray-100 rounded animate-pulse" />
+});
 
 type PostFormProps = {
     onSubmit: (event: FormEvent<HTMLFormElement>) => void;
