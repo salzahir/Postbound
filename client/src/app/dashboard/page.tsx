@@ -36,7 +36,7 @@ function Dashboard() {
   return (
     <>
       <Header />
-      <ApiError isApiDown={isApiDown} message="API is down cannot login" />
+      {(error || isApiDown) && <ApiError isApiDown={isApiDown} message={error || "API is down cannot login"} />}
       <div className="max-w-4xl mx-auto p-6">
         <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
         <div className="">
@@ -63,13 +63,11 @@ function Dashboard() {
                     </button>
                   </Link>
                 )}
-                {error && (<p className="text-red-500 mt-4">{error}</p>)}
               </div>
             </div>
           )}
         </div>
       </div>
-
     </>
   );
 }

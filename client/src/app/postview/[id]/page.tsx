@@ -60,7 +60,10 @@ function PostView() {
             <Header />
             <div className="flex flex-col items-center justify-center p-6 bg-gray-900 text-white rounded-lg shadow-md mt-6 mb-6">
                 <h1 className="text-4xl font-bold text-yellow-400 mb-4">{post.title}</h1>
-                <p className="text-lg text-gray-200 mb-6 max-w-xl text-center">{post.content}</p>
+                <div
+                  className="text-lg text-gray-200 mb-6 max-w-xl text-center prose prose-invert prose-p:text-gray-200"
+                  dangerouslySetInnerHTML={{ __html: post.content }}
+                />
                 <div className="flex gap-6 text-sm text-gray-400">
                     <p>Created: {new Date(post.createdAt).toISOString().split("T")[0]}</p>
                     <p>Updated: {new Date(post.updatedAt).toISOString().split("T")[0]}</p>
