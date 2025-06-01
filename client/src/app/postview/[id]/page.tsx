@@ -9,6 +9,7 @@ import CommentForm from "../CommentForm";
 import useAuth from "../../hooks/useauth";
 import CommentsList from "../CommentList";
 import useComments from "../../hooks/useComments";
+import ApiError from "../../components/error/ApiError";
 
 function PostView() {
     const { id: postId } = useParams() as { id: string };
@@ -18,11 +19,12 @@ function PostView() {
     const { user, token } = useAuth();
 
     const {
-    comments,
-    commentTitle, setCommentTitle,
-    commentContent, setCommentContent,
-    postComment, deleteComment,
-    commentLoading, commentError, message,
+        comments,
+        commentTitle, setCommentTitle,
+        commentContent, setCommentContent,
+        postComment, deleteComment,
+        commentLoading, commentError, message,
+        isApiDown
     } = useComments(postId, user?.userid || "", token, setError);
 
     const [showForm, setShowForm] = useState(false);
@@ -71,7 +73,9 @@ function PostView() {
                 <h1>Comments</h1>
 
                 {message && <p className="text-green-400">{message}</p>}
-                {commentError && <p className="text-red-400">{commentError}</p>}
+                {commentError && <ApiError message={commentError} isApiDown={isApiDown} />}
+                {isApiDown && <ApiError message="Unable to load comments. Please check if the server is running." isApiDown={true} />}
+                
                 {token && (
                     <>
                         <button
@@ -103,7 +107,6 @@ function PostView() {
 
                 <div>
                     {commentLoading && <p>Loading comments...</p>}
-                    {commentError && <p>Error: {commentError}</p>}
                     {comments.length === 0 && <p>No comments yet</p>}
 
                     <CommentsList
@@ -116,7 +119,6 @@ function PostView() {
                 </div>
             </div>
         </>
-    )
-
+    );
 }
 export default PostView;

@@ -5,13 +5,14 @@ import { FormEvent } from "react";
 import Header from "@/app/components/layout/Header";
 import PostForm from "./PostForm";
 import useApi from "../hooks/useApi";
+import ApiError from "../components/error/ApiError";
 
 function NewPost() {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [isPublic, setIsPublic] = useState(false);
     const [success, setSuccess] = useState("");
-    const {fetchData, error} = useApi("POST", true);
+    const {fetchData, error, isApiDown} = useApi("POST", true);
 
     async function handleSubmitPost(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -42,6 +43,7 @@ function NewPost() {
                     submitLabel="Create Post"
                     error={error || ""}
                     success={success}
+                    isApiDown={isApiDown}
                 />
             </div>
         </>
