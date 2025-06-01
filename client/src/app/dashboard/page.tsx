@@ -6,10 +6,11 @@ import { User } from "@/types/users";
 import Header from "../components/layout/Header";
 import Link from "next/link";
 import useApi from "../hooks/useApi";
+import ApiError from "../components/error/ApiError";
 
 function Dashboard() {
   const router = useRouter();
-  const {fetchData, error, loading} = useApi("GET", true);
+  const {fetchData, error, loading, isApiDown} = useApi("GET", true);
   const [user, setUser] = useState<User | null>(null);
 
   function logoutUser() {
@@ -35,6 +36,7 @@ function Dashboard() {
   return (
     <>
       <Header />
+      <ApiError isApiDown={isApiDown} message="API is down cannot login" />
       <div className="max-w-4xl mx-auto p-6">
         <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
         <div className="">
