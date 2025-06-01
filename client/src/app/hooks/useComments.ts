@@ -8,9 +8,11 @@ function useComments(postId: string, token: string | null, userId: string | null
     const [commentContent, setCommentContent] = useState("");
     const [commentLoading, setCommentLoading] = useState(true);
     const [message, setMessage] = useState<string | null>(null);
-    const {fetchData, error: fetchError} = useApi("GET", false);
-    const {fetchData: postCommentApi, error: postError} = useApi("POST", true);
-    const {fetchData: deleteCommentApi, error: deleteError} = useApi("DELETE", true);
+    const {fetchData, error: fetchError, isApiDown: isFetchApiDown} = useApi("GET", false);
+    const {fetchData: postCommentApi, error: postError, isApiDown: isPostApiDown} = useApi("POST", true);
+    const {fetchData: deleteCommentApi, error: deleteError, isApiDown: isDeleteApiDown} = useApi("DELETE", true);
+
+    const isApiDown = isFetchApiDown || isPostApiDown || isDeleteApiDown;
 
     useEffect(() => {
         const fetchComments = async () => {
@@ -60,6 +62,7 @@ function useComments(postId: string, token: string | null, userId: string | null
         message,
         postComment,
         deleteComment,
+        isApiDown,
     };
 }
 

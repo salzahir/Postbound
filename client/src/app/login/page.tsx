@@ -6,11 +6,12 @@ import { useState } from "react";
 import Header from "../components/layout/Header";
 import Link from "next/link";
 import useApi from "../hooks/useApi";
+import ApiError from "../components/error/ApiError";
 
 function LoginPage() {
   const router = useRouter();
   const [success, setSucess] = useState("");
-  const {fetchData, loading, error} = useApi("POST", false);
+  const {fetchData, loading, error, isApiDown} = useApi("POST", false);
   
   async function handleLogin(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -85,7 +86,9 @@ function LoginPage() {
           Don&apos;t have an account? <Link href="/sign-up" className="text-blue-400 hover:underline">Sign up</Link>
         </p>
       </div>
+      <ApiError isApiDown={isApiDown} message="API is down cannot login" />
     </>
+
   );
 }
 

@@ -5,6 +5,7 @@ import { Post } from "@/types/posts";
 import { useEffect, useState } from "react";
 import { User } from "@/types/users";
 import useApi from "../hooks/useApi";
+import ApiError from "../components/error/ApiError";
 
 function Posts() {
 
@@ -12,7 +13,7 @@ function Posts() {
     const [token, setToken] = useState<string | null>(null);
     const [user, setUser] = useState<User | null>(null);
     const {fetchData, error, loading} = useApi("GET", false);
-    const {fetchData: checkAuth} = useApi("GET", true);
+    const {fetchData: checkAuth, isApiDown} = useApi("GET", true);
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -38,6 +39,19 @@ function Posts() {
             }
         } checkAuthor();
     }, [checkAuth]);
+
+
+    if (isApiDown) {
+        return (
+            <>
+                <Header />
+                <div>
+                    <h1>API is down</h1>
+                </div>
+                <ApiError message="Api is Down" />
+            </>
+        );
+    }
 
     if (posts.length === 0) {
         return (

@@ -1,58 +1,126 @@
-# Postbound
+# Postbound - Modern Blog Platform
 
-A full-stack blog platform built with Next.js, Express, and Prisma.
+A full-stack blog platform built with Next.js, Express, and MongoDB. Postbound allows users to create, share, and interact with blog posts in a modern, responsive environment.
 
-## Features
+![Postbound Logo](client/public/logo.png)
 
-- **Authentication:** Secure login, JWT storage, protected routes, and role-based access.
-- **Posts:** Full CRUD, publish/unpublish, author-only controls, timestamps, and public/private logic.
-- **Comments:** Full CRUD, user association, edit/delete for own comments, and proper linking to posts.
-- **UI/UX:** Clean, functional, and responsive with Tailwind CSS. Includes loading states, error handling, and confirmation dialogs (or plans for them).
-- **Admin/Author Features:** Ability to manage posts and comments, not just consume content.
+## ✨ Features
 
-## Tech Stack
+### Authentication & Security
+- 🔐 JWT-based authentication
+- 🔒 Protected routes and role-based access
+- 🛡️ Secure password handling
+- 🔑 Session management
 
-- **Frontend:** Next.js, React, TypeScript, Tailwind CSS
-- **Backend:** Express, Node.js, TypeScript, Prisma ORM
-- **Database:** PostgreSQL (via Prisma)
-- **Authentication:** JWT
+### Blog Management
+- ✍️ Rich text editor (TinyMCE)
+- 📝 Full CRUD operations for posts
+- 🌐 Public/private post visibility
+- 🕒 Automatic timestamps
+- 🔍 Search functionality
 
-## Project Structure
+### Social Features
+- 💬 Comment system with CRUD operations
+- 👤 User profiles
+- 🔔 Notifications (planned)
+- 📱 Responsive design for all devices
+
+### Technical Features
+- ⚡ Server-side rendering with Next.js
+- 🎨 Modern UI with Tailwind CSS
+- 📊 MongoDB for flexible data storage
+- 🔄 Real-time updates
+- 🚀 Optimized performance
+
+## 🛠️ Tech Stack
+
+### Frontend
+- Next.js 14
+- React 18
+- TypeScript
+- Tailwind CSS
+- TinyMCE Editor
+
+### Backend
+- Node.js
+- Express.js
+- TypeScript
+- MongoDB
+- JWT Authentication
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18+
+- MongoDB
+- npm or yarn
+
+### Installation
+
+1. Clone the repository
+```bash
+git clone https://github.com/yourusername/postbound.git
+cd postbound
+```
+
+2. Install dependencies
+```bash
+# Install frontend dependencies
+cd client
+npm install
+
+# Install backend dependencies
+cd ../server
+npm install
+```
+
+3. Set up environment variables
+```bash
+# In client directory
+cp .env.example .env.local
+# Add your environment variables
+
+# In server directory
+cp .env.example .env
+# Add your environment variables
+```
+
+4. Start the development servers
+```bash
+# Start frontend (from client directory)
+npm run dev
+
+# Start backend (from server directory)
+npm run dev
+```
+
+## 📁 Project Structure
 
 ```
 postbound/
-├── client/          # Next.js frontend application
-└── server/          # Express.js backend API
+├── client/                 # Next.js frontend
+│   ├── src/
+│   │   ├── app/           # App router pages
+│   │   ├── components/    # React components
+│   │   └── types/        # TypeScript types
+│   └── public/           # Static assets
+└── server/               # Express backend
+    ├── src/
+    │   ├── controllers/  # Route controllers
+    │   ├── models/      # Database models
+    │   ├── routes/      # API routes
+    │   └── middleware/  # Custom middleware
+    └── tests/           # Backend tests
 ```
 
-## Getting Started
-
-1. Clone the repository.
-2. Install dependencies:
-   ```sh
-   cd client && npm install
-   cd ../server && npm install
-   ```
-3. Set up environment variables (see `.env.example`).
-4. Run the development server:
-   ```sh
-   # Terminal 1 (Frontend)
-   cd client && npm run dev
-   # Terminal 2 (Backend)
-   cd server && npm run dev
-   ```
-
-## Next Steps
-
-- **Deployment:** Deploy to Vercel (frontend) and Render/Fly.io (backend).
-- **Polish:** Implement pagination, confirmation dialogs, and accessibility improvements.
-- **Testing:** Add unit and integration tests.
-- **CI/CD:** Set up GitHub Actions for linting and tests.
-
-## Contributing
-
-Feel free to open issues or submit pull requests!
-
-## License
+## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [Next.js](https://nextjs.org/)
+- [Express](https://expressjs.com/)
+- [MongoDB](https://www.mongodb.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [TinyMCE](https://www.tiny.cloud/)

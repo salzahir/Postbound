@@ -1,6 +1,7 @@
 import { Comment } from "@/types/comments";
 import { useState } from "react";
 import useApi from "../hooks/useApi";
+import ApiError from "../components/error/ApiError";
 
 interface UpdateCommentProps {
     comment: Comment;
@@ -11,7 +12,7 @@ interface UpdateCommentProps {
 export default function UpdateComment({ comment, onUpdate, onCancel }: UpdateCommentProps) {
     const [title, setTitle] = useState(comment.title);
     const [content, setContent] = useState(comment.content);
-    const {fetchData, error, loading} = useApi("PUT", true);
+    const {fetchData, error, loading, isApiDown} = useApi("PUT", true);
 
     function isFormInvalid() {
         return loading || 
@@ -47,26 +48,21 @@ export default function UpdateComment({ comment, onUpdate, onCancel }: UpdateCom
                 placeholder="Comment content (minimum 5 characters)"
                 minLength={5}
             />
+            {error && <ApiError message={error} isApiDown={isApiDown} />}
             <div className="flex gap-2">
-                <button
-                    onClick={onCancel}
-                    className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors"
-                >
-                    Cancel
-                </button>
                 <button
                     onClick={updateComment}
                     disabled={isFormInvalid()}
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors disabled:opacity-50"
+                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
                 >
-                    {loading ? "Updating..." : "Update Comment"}
+                    Update
                 </button>
-            </div>
-            {loading && <p className="text-gray-400">Updating comment...</p>}
-            {error && <p className="text-red-400">Error: {error}</p>}
-            <div className="text-sm text-gray-400">
-                <p>Title must be between 3 and 50 characters</p>
-                <p>Content must be at least 5 characters long</p>
+                <button
+                    onClick={onCancel}
+                    className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+                >
+                    Cancel
+                </button>
             </div>
         </div>
     );

@@ -5,6 +5,7 @@ import authRoutes from './src/routes/auth-routes';
 import commentRoutes from './src/routes/comment-routes';
 import dotenv from 'dotenv';
 import cors from "cors";
+import limiter from './src/middleware/rateLimiter';
 
 dotenv.config();
 const PORT = process.env.PORT || 3000;
@@ -15,8 +16,12 @@ app.use(cors({
   origin: process.env.CLIENT_URL || 'http://localhost:3000',
   credentials: true
 }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Apply rate limiting to all requests
+app.use(limiter);
 
 app.get("/", (req: Request, res: Response) => {
     res.status(200).json({ message: "Welcome to the API" });

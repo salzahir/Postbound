@@ -1,4 +1,11 @@
 import { FormEvent } from "react";
+import dynamic from 'next/dynamic';
+import ApiError from "../components/error/ApiError";
+
+const TinyMCEEditor = dynamic(() => import("../components/editor/TinyMCEEditor"), {
+    ssr: false,
+    loading: () => <div className="h-[500px] bg-gray-100 rounded animate-pulse" />
+});
 
 type PostFormProps = {
     onSubmit: (event: FormEvent<HTMLFormElement>) => void;
@@ -11,6 +18,7 @@ type PostFormProps = {
     submitLabel: string;
     error: string;
     success: string;
+    isApiDown?: boolean;
 };
 
 function PostForm({
@@ -24,6 +32,7 @@ function PostForm({
     submitLabel,
     error,
     success,
+    isApiDown = false,
 }: PostFormProps) {
     return (
         <form onSubmit={onSubmit} className="w-full max-w-2xl bg-gray-800 p-8 rounded-lg shadow-lg">
@@ -40,13 +49,13 @@ function PostForm({
             </div>
             <div className="mb-4">
                 <label htmlFor="content" className="block text-white mb-2">Content</label>
-                <textarea
-                    id="content"
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                    className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600 focus:border-blue-500 focus:outline-none h-32"
-                    required
-                />
+                <div className="bg-white rounded">
+                    <TinyMCEEditor
+                        value={content}
+                        onChange={setContent}
+                        height={400}
+                    />
+                </div>
             </div>
             <div className="mb-4">
                 <label className="flex items-center text-white">
@@ -59,7 +68,7 @@ function PostForm({
                     Public Post
                 </label>
             </div>
-            {error && <p className="text-red-500 mb-4">{error}</p>}
+            {error && <ApiError message={error} isApiDown={isApiDown} />}
             {success && <p className="text-green-500 mb-4">{success}</p>}
             <button
                 type="submit"

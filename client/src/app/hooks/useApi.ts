@@ -6,6 +6,7 @@ type RequestBody = Record<string, unknown>;
 function useApi(method: string, requiresAuth: boolean) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [isApiDown, setIsApiDown] = useState(false);
 
     const fetchData = useCallback(async (endpoint: string, body?: RequestBody) => {
         setLoading(true);
@@ -35,19 +36,27 @@ function useApi(method: string, requiresAuth: boolean) {
                     errorMessage = response.statusText || errorMessage;
                 }
                 setError(errorMessage);
+                setIsApiDown(false);
                 return null;
             }
+            setIsApiDown(false);
             return await response.json();
         } catch (error) {
-            const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
-            setError(errorMessage);
+            if (error instanceof TypeError && error.message === 'Failed to fetch') {
+                setError("Unable to connect to the server. Please check if the API is running.");
+                setIsApiDown(true);
+            } else {
+                const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+                setError(errorMessage);
+                setIsApiDown(false);
+            }
             return null;
         } finally {
             setLoading(false);
         }
     }, [method, requiresAuth]);
 
-    return { fetchData, loading, error };
+    return { fetchData, loading, error, isApiDown };
 }
 
 export default useApi;

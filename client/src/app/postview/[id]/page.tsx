@@ -9,6 +9,7 @@ import CommentForm from "../CommentForm";
 import useAuth from "../../hooks/useauth";
 import CommentsList from "../CommentList";
 import useComments from "../../hooks/useComments";
+import ApiError from "../../components/error/ApiError";
 
 function PostView() {
     const { id: postId } = useParams() as { id: string };
@@ -18,11 +19,12 @@ function PostView() {
     const { user, token } = useAuth();
 
     const {
-    comments,
-    commentTitle, setCommentTitle,
-    commentContent, setCommentContent,
-    postComment, deleteComment,
-    commentLoading, commentError, message,
+        comments,
+        commentTitle, setCommentTitle,
+        commentContent, setCommentContent,
+        postComment, deleteComment,
+        commentLoading, commentError, message,
+        isApiDown
     } = useComments(postId, user?.userid || "", token, setError);
 
     const [showForm, setShowForm] = useState(false);
@@ -58,7 +60,10 @@ function PostView() {
             <Header />
             <div className="flex flex-col items-center justify-center p-6 bg-gray-900 text-white rounded-lg shadow-md mt-6 mb-6">
                 <h1 className="text-4xl font-bold text-yellow-400 mb-4">{post.title}</h1>
-                <p className="text-lg text-gray-200 mb-6 max-w-xl text-center">{post.content}</p>
+                <div
+                  className="text-lg text-gray-200 mb-6 max-w-xl text-center prose prose-invert prose-p:text-gray-200"
+                  dangerouslySetInnerHTML={{ __html: post.content }}
+                />
                 <div className="flex gap-6 text-sm text-gray-400">
                     <p>Created: {new Date(post.createdAt).toISOString().split("T")[0]}</p>
                     <p>Updated: {new Date(post.updatedAt).toISOString().split("T")[0]}</p>
@@ -71,7 +76,9 @@ function PostView() {
                 <h1>Comments</h1>
 
                 {message && <p className="text-green-400">{message}</p>}
-                {commentError && <p className="text-red-400">{commentError}</p>}
+                {commentError && <ApiError message={commentError} isApiDown={isApiDown} />}
+                {isApiDown && <ApiError message="Unable to load comments. Please check if the server is running." isApiDown={true} />}
+                
                 {token && (
                     <>
                         <button
@@ -103,7 +110,6 @@ function PostView() {
 
                 <div>
                     {commentLoading && <p>Loading comments...</p>}
-                    {commentError && <p>Error: {commentError}</p>}
                     {comments.length === 0 && <p>No comments yet</p>}
 
                     <CommentsList
@@ -116,7 +122,6 @@ function PostView() {
                 </div>
             </div>
         </>
-    )
-
+    );
 }
 export default PostView;

@@ -11,7 +11,7 @@ function NewPost() {
     const [content, setContent] = useState("");
     const [isPublic, setIsPublic] = useState(false);
     const [success, setSuccess] = useState("");
-    const {fetchData, error} = useApi("POST", true);
+    const {fetchData, error, isApiDown} = useApi("POST", true);
 
     async function handleSubmitPost(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -26,6 +26,7 @@ function NewPost() {
             console.error("Error creating post:", error);
         }
     }
+
     return (
         <>
             <Header />
@@ -42,6 +43,7 @@ function NewPost() {
                     submitLabel="Create Post"
                     error={error || ""}
                     success={success}
+                    isApiDown={isApiDown}
                 />
             </div>
         </>
