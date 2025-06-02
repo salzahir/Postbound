@@ -42,15 +42,17 @@ function useApi(method: string, requiresAuth: boolean) {
             setIsApiDown(false);
             return await response.json();
         } catch (error) {
+            console.error("API Error:", error);
             if (error instanceof TypeError && error.message === 'Failed to fetch') {
                 setError("Unable to connect to the server. Please check if the API is running.");
                 setIsApiDown(true);
+                return null;
             } else {
                 const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
                 setError(errorMessage);
                 setIsApiDown(false);
+                return null;
             }
-            return null;
         } finally {
             setLoading(false);
         }
