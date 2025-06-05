@@ -1,17 +1,9 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 export default function Header() {
-
-  const [token, setToken] = useState<string | null>(null);
-
-  useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    if (storedToken) {
-      setToken(storedToken);
-    }
-  }, []);
+  
+  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
   return (
     <header className="flex justify-between items-center p-4 bg-gray-800 text-white">
