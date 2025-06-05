@@ -1,30 +1,20 @@
 'use client';
 
 import { Editor } from '@tinymce/tinymce-react';
-import { useEffect, useState } from 'react';
 
 interface TinyMCEEditorProps {
     value: string;
-    onChange: (content: string) => void;
+    onContentChange: (content: string) => void;
     height?: number;
 }
 
-export default function TinyMCEEditor({ value, onChange, height = 500 }: TinyMCEEditorProps) {
-    const [isMounted, setIsMounted] = useState(false);
-
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
-
-    if (!isMounted) {
-        return <div className="h-[500px] bg-gray-100 rounded animate-pulse" />;
-    }
+export default function TinyMCEEditor({ value, onContentChange, height = 500 }: TinyMCEEditorProps) {
 
     return (
         <Editor
             apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
             value={value}
-            onEditorChange={(content) => onChange(content)}
+            onEditorChange={(content) => onContentChange(content)}
             init={{
                 height: height,
                 menubar: true,
@@ -58,4 +48,4 @@ export default function TinyMCEEditor({ value, onChange, height = 500 }: TinyMCE
             }}
         />
     );
-} 
+}
