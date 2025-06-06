@@ -48,9 +48,6 @@ async function getCommentById(id: number) {
             where: { id: Number(id) },
             include: { user: false },
         });
-        if (!comment) {
-            throw new Error("Comment not found");
-        }
         return comment;
     } catch (error) {
         console.error("Error fetching comment:", error);

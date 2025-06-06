@@ -12,7 +12,8 @@ async function handleGetComments(req: Request, res: Response): Promise<void> {
 }
 
 async function handlePostComment(req: Request, res: Response): Promise<void> {
-    const { postId, content, title } = req.body;
+    const {content, title } = req.body;
+    const postId = parseInt(req.params.postId, 10);
     const userId = req.user?.id;
     try {
         const newComment = await commentsDB.postComment(title, content, postId, userId);
