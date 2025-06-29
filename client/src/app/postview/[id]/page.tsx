@@ -68,6 +68,7 @@ function PostView() {
                     <p>Created: {new Date(post.createdAt).toISOString().split("T")[0]}</p>
                     <p>Updated: {new Date(post.updatedAt).toISOString().split("T")[0]}</p>
                     <p>Status: <span className={post.isPublic ? "text-green-400" : "text-red-400"}>{post.isPublic ? "Public" : "Private"}</span></p>
+                    <p>Post id: {postId}</p>
                 </div>
                 <EditButton id={post.id} isAuthor={user?.isAuthor ?? null} />
             </div>

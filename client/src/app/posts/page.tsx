@@ -10,7 +10,6 @@ import ApiError from "../components/error/ApiError";
 function Posts() {
 
     const [posts, setPosts] = useState<Post[]>([]);
-    const [token, setToken] = useState<string | null>(null);
     const [user, setUser] = useState<User | null>(null);
     const {fetchData, error, loading} = useApi("GET", false);
     const {fetchData: checkAuth, isApiDown} = useApi("GET", true);
@@ -23,10 +22,10 @@ function Posts() {
             } catch (error) {
                 console.error("Error fetching posts:", error);
                 setPosts([]);
-                setToken(null);}
+            }
         };
         fetchPosts();
-    }, [fetchData]);
+    }, []);
 
     useEffect(() => {
         async function checkAuthor() {
@@ -70,7 +69,7 @@ function Posts() {
             <Header />
             <main>
                 <h1>Posts</h1>
-                <p>{token ? "You are logged in" : "You are not logged in"}</p>
+                <p>{user ? "You are logged in" : "You are not logged in"}</p>
                 <div>
                     {posts.map((post) => (
                         <PostCard key={post.id} post={post} isAuthor={!!user?.isAuthor} />

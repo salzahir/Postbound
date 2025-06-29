@@ -8,6 +8,7 @@ A RESTful API backend for the Postbound blog platform.
 - **Posts:** Full CRUD, publish/unpublish, author-only controls, timestamps, and public/private logic.
 - **Comments:** Full CRUD, user association, edit/delete for own comments, and proper linking to posts.
 - **Database:** PostgreSQL with Prisma ORM for type-safe queries and migrations.
+- **Testing:** Automated integration tests using Jest and Supertest for all major endpoints including login, post creation, update, and deletion.
 
 ## Tech Stack
 
@@ -33,7 +34,6 @@ A RESTful API backend for the Postbound blog platform.
 
 - **Deployment:** Deploy to Render/Fly.io.
 - **Polish:** Implement rate limiting, CSRF protection, and logging.
-- **Testing:** Add unit and integration tests.
 - **CI/CD:** Set up GitHub Actions for linting and tests.
 
 ## Contributing
@@ -127,6 +127,20 @@ npm start
 - Input validation
 - Author-only access control
 - Public/private post visibility
+
+## Testing
+
+This project includes a comprehensive set of integration tests using Jest and Supertest. These tests cover:
+
+- Public and protected routes
+- Authenticated user flows
+- Post CRUD operations
+
+To run tests:
+
+```bash
+npm test
+```
 
 ## Future Improvements
 

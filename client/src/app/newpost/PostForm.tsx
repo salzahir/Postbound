@@ -52,7 +52,7 @@ function PostForm({
                 <div className="bg-white rounded">
                     <TinyMCEEditor
                         value={content}
-                        onChange={setContent}
+                        onContentChange={setContent}
                         height={400}
                     />
                 </div>

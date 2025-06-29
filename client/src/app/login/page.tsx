@@ -52,7 +52,7 @@ function LoginPage() {
               id="username"
               name="username"
               required
-              className="p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <label
               htmlFor="password"
@@ -65,7 +65,7 @@ function LoginPage() {
               id="password"
               name="password"
               required
-              className="p-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="p-2 rounded bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <button
